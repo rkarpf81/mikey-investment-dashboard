@@ -24,7 +24,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tests/*-snapshots/*.png
-          git diff --cached --quiet || (git commit -m "Add UNREVIEWED visual baseline candidates" && git push)
+          git diff --cached --quiet || (git commit -m "Add reviewed visual reference screenshots" && git push)
       - name: Upload candidates for explicit visual approval
         if: always()
         uses: actions/upload-artifact@v4
