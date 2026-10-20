@@ -20,7 +20,7 @@ function record(){let p=proposed(),items=[["FXAIX",p.fx],[p.ticker,p.stock]].fil
 function backup(){let a=document.createElement("a"),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.href=url;a.download="mikey-investments.json";a.click();URL.revokeObjectURL(url)}
 function restore(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{try{let d=JSON.parse(t);if(!Array.isArray(d.holdings)||!Array.isArray(d.watch))throw Error();if(confirm("Replace locally saved data?")){data=d;save();render()}}catch{alert("Invalid backup")}})}
 
-// Portfolio function renderPerformance(){
+function renderPerformance(){
  const total=data.holdings.reduce((s,h)=>s+(Number(h.value)||0),0);
  const basis=data.holdings.reduce((s,h)=>s+(Number(h.shares)||0)*(Number(h.cost)||0),0);
  const gain=total-basis, pct=basis?100*gain/basis:0;
