@@ -8,8 +8,6 @@ on:
     paths-ignore:
       - quotes.json
       - version.json
-  pull_request:
-    branches: [main]
 permissions:
   contents: read
 jobs:
