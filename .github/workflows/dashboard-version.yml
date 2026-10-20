@@ -31,9 +31,14 @@ jobs:
           path.write_text(html)
           pathlib.Path("version.json").write_text(json.dumps({"build":build})+"\n")
           PY
+      - name: Install market data reader
+        run: pip install yfinance
+      - name: Produce initial market snapshot if available
+        continue-on-error: true
+        run: python scripts/update_quotes.py
       - name: Commit matched dashboard build
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html version.json
+          git add index.html version.json quotes.json
           git diff --cached --quiet || (git commit -m "Publish matched dashboard build manifest" && git push)
