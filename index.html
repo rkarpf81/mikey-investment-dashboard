@@ -1,286 +1,289 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mikey Investment Dashboard</title><meta name="dashboard-build" content="705be280614c7f8b1efa0e586daa3eff78d19be9"><style>
-:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#24354c;background:#f5f7fb}*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#24354c}main{max-width:1320px;margin:auto;padding:44px 36px 80px}h1{font-size:clamp(30px,3vw,43px);letter-spacing:-1.8px;color:#13243c;margin:0 0 7px;font-weight:850}h2{font-size:18px;letter-spacing:-.4px;margin:0 0 17px;color:#1d3048}p{color:#748399;line-height:1.5}main>p:first-of-type{margin:0 0 28px;font-size:13px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:white;border:1px solid #e6ebf2;border-radius:19px;padding:24px;margin:14px 0;box-shadow:0 7px 26px #1a355008;min-width:0}.cards .card{margin:0;min-height:152px}.cards .card>div:first-child{color:#8290a5;font-size:12px;font-weight:700;letter-spacing:.5px}.number{font-size:clamp(26px,3vw,38px);font-weight:800;color:#162b47;margin-top:16px;letter-spacing:-1.2px;font-variant-numeric:tabular-nums}.bar{height:9px;background:#e9edf4;border-radius:50px;overflow:hidden;margin-top:15px}.bar>div{height:100%;background:#1a9b90;border-radius:50px}.small{font-size:12px;color:#8b98a8}#gap{font-size:12px;margin:9px 0 0}input,select,button{font:inherit;border:1px solid #dce4ed;border-radius:9px;padding:10px 12px;background:#fff;color:#24354c;max-width:100%}input:focus,select:focus{outline:2px solid #73b7af}button{background:#183b60;color:#fff;border-color:#183b60;cursor:pointer;font-weight:700}button:hover{background:#27537d}label{font-size:13px;color:#53657b}table{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #e9edf2}th{color:#75869b;text-transform:uppercase;letter-spacing:.6px;font-size:10px;background:#f8fafd}td b{color:#203e61}tbody tr:hover{background:#f7fafd}td input{width:86px;font-size:12px;padding:7px}td select{font-size:12px;padding:7px}.scroll{overflow:auto;border:1px solid #edf0f5;border-radius:12px}.grid .card{margin:16px 0}#plan{background:#f5faf9;border:1px solid #dceeea;border-radius:12px;padding:5px 14px;margin:15px 0}#priorities p{border-bottom:1px solid #e9edf2;padding-bottom:10px}#newTicker,#watchName,#watchNote{margin:5px 7px 5px 0}.positive{color:#16846a!important;font-weight:750}.negative{color:#c54850!important;font-weight:750}.muted{color:#8d9aaa!important}.metric-note{font-size:11px;color:#98a3b1;margin-top:7px}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#138e87;font-weight:800;margin-bottom:8px}.section-intro{display:flex;justify-content:space-between;align-items:center;gap:12px}.section-intro span{font-size:12px;color:#8794a5}.progress-chip{background:#e9f6f2;border-radius:30px;padding:3px 9px;color:#137967;font-size:11px;font-weight:700}#goalbar{height:7px;background:#e9edf4;border-radius:20px;overflow:hidden;margin-top:6px}#goalbar>div{height:100%;background:#1a9b90}.summary{margin:12px 0 14px;padding:10px 25px;background:linear-gradient(115deg,#173d5d,#1b5664);border-radius:19px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}.summary strong{font-size:18px}.summary p{color:#c9dce7;margin:5px 0 0;font-size:12px}.summary .progress-chip{background:#d7f1e9}@media(max-width:950px){.cards{grid-template-columns:repeat(2,1fr)}main{padding:30px 18px}}@media(max-width:620px){.cards,.grid{grid-template-columns:1fr}.card{padding:18px}.summary{display:block}.number{font-size:34px}}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:12px}.topbar .eyebrow{margin-bottom:0}.refresh-area{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.refresh-area button{padding:10px 17px;background:#167f76;border-color:#167f76}.refresh-area span{font-size:11px;color:#78879a}@media(max-width:620px){.topbar{align-items:flex-start}.refresh-area{width:100%}}
-.sticky-header{position:sticky;top:0;z-index:1000;background:#f5f7fb;padding:14px 0 16px;margin-top:-14px;border-bottom:1px solid #dfe5ed;box-shadow:0 5px 14px rgba(19,36,60,.045)}.sticky-header h1{font-size:clamp(22px,2.7vw,38px);margin:0}.sticky-header .topbar{margin-bottom:8px}.refresh-area{margin-left:auto}.refresh-area button{background:#087f79!important;color:white!important;font-weight:750;white-space:nowrap;box-shadow:0 3px 8px rgba(8,127,121,.15)}@media(max-width:680px){main{padding:16px 14px 50px}.sticky-header{padding:10px 0}.sticky-header h1{font-size:23px;letter-spacing:-.8px}.refresh-area span{display:none}}
-.sticky-header{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:99999!important;width:100%!important;margin:0!important;padding:12px max(24px,calc((100vw - 1248px)/2)) 14px!important;background:#f5f7fb!important;border-bottom:1px solid #d9e3eb!important;box-shadow:0 4px 18px rgba(20,35,55,.12)!important}.sticky-header .topbar{display:flex!important;justify-content:space-between!important;align-items:center!important;flex-wrap:wrap!important;gap:8px!important}.sticky-header .refresh-area{display:flex!important;visibility:visible!important;opacity:1!important;position:relative!important}.sticky-header #refreshBtn{display:inline-block!important;visibility:visible!important;opacity:1!important;background:#087f79!important;color:white!important;border:0!important;padding:11px 18px!important;border-radius:9px!important;cursor:pointer!important}.sticky-header h1{font-size:clamp(22px,2.5vw,34px)!important;margin:5px 0 0!important}main{padding-top:175px!important}@media(max-width:680px){.sticky-header{padding:10px 14px!important}.sticky-header h1{font-size:21px!important}main{padding-top:165px!important}}
-#persistentRefresh{position:fixed!important;right:18px!important;top:12px!important;z-index:2147483647!important;display:flex!important;align-items:center;gap:9px;background:#fff;padding:7px 10px;border:1px solid #cddbe4;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.18)}#persistentRefresh button{background:#087f79!important;color:white!important;border:0!important;padding:10px 16px!important;border-radius:8px!important;font-weight:800;cursor:pointer}#persistentRefresh span{font-size:11px;color:#596d7e}@media(max-width:850px){#persistentRefresh span{display:none}}.sticky-header .refresh-area{visibility:visible!important}.sticky-header{padding-right:24px!important}@media(max-width:680px){.sticky-header{padding-right:14px!important}}
-.market-status{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#53677d;flex-wrap:wrap}.market-status strong{font-size:13px}.market-status .market-dot{width:9px;height:9px;border-radius:50%;background:#8b98a8;display:inline-block}.market-status.is-open .market-dot{background:#138c65}.market-status.is-closed .market-dot{background:#d19a25}.market-hours{color:#7c8999;font-size:11px}\n.market-value{display:inline-block;padding:9px 3px;font-weight:700;color:#163d5b;white-space:nowrap}#marketRefreshStatus{position:relative;font-weight:650;background:#eaf0f5;padding:10px 12px;border-radius:8px}#persistentRefresh button:disabled{opacity:.6;cursor:wait}
-
-/* Compact five-metric overview: one row on desktop, responsive on narrow screens. */
-.cards{grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:stretch}
-.cards .card{min-height:128px;padding:16px 14px;margin:0;border-radius:14px}
-.cards .card>div:first-child{font-size:11px;letter-spacing:0}
-.cards .number{font-size:clamp(18px,1.75vw,28px);letter-spacing:-.7px;margin-top:12px;white-space:nowrap}
-.cards .metric-note,.cards #gap{font-size:10px;line-height:1.35}
-.cards .bar{margin-top:10px}
-@media(max-width:1050px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:650px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.cards .number{font-size:clamp(19px,5vw,27px)}}
-@media(max-width:390px){.cards{grid-template-columns:1fr}}
-
-/* Distinct, consistent borders for all five portfolio summary cards. */
-.cards>.card{
- border:2px solid #7189a8!important;
- border-radius:12px!important;
- box-shadow:0 2px 7px rgba(32,56,86,.12)!important;
-}
-/* Five compact portfolio metric cards, one row at desktop widths. */
-@media(min-width:900px){
- .cards{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important}
- .cards>.card{min-width:0!important;min-height:116px!important;padding:13px 12px!important;margin:0!important;border:2px solid #7189a8!important;border-radius:12px!important}
- .cards>.card .number{font-size:clamp(17px,1.55vw,25px)!important;line-height:1.2!important;letter-spacing:-.5px!important;margin-top:10px!important;white-space:nowrap!important}
- .cards>.card>div:first-child{font-size:10px!important;line-height:1.25!important}
- .cards>.card .metric-note,.cards>.card #gap{font-size:9px!important;line-height:1.3!important;margin-top:7px!important}
- .cards>.card .bar{margin-top:9px!important}
-}
- .stock-name{font-size:11px;color:#66788e;font-weight:400;white-space:normal;display:inline;margin-left:5px}
-
-/* Holdings: readable columns, no overlapping names or input-looking values. */
-#holdingsTable{table-layout:fixed;min-width:1190px;width:100%;font-variant-numeric:tabular-nums}
-#holdingsTable th,#holdingsTable td{padding:12px 7px;vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
-#holdingsTable th:first-child,#holdingsTable td:first-child{width:210px;text-align:left}
-#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:90px}
-#holdingsTable th:nth-child(3),#holdingsTable td:nth-child(3){width:70px}
-#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:91px}
-#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:94px}
-#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:88px}
-#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:79px}
-#holdingsTable th:nth-child(8),#holdingsTable td:nth-child(8){width:96px}
-#holdingsTable th:nth-child(9),#holdingsTable td:nth-child(9){width:109px}
-#holdingsTable th:nth-child(10),#holdingsTable td:nth-child(10){width:93px}
-#holdingsTable th:nth-child(11),#holdingsTable td:nth-child(11){width:73px}
-#holdingsTable .stock-name{display:block;margin:4px 0 0;font-size:11px;line-height:1.3;white-space:normal;overflow-wrap:anywhere;color:#66788e}
-#holdingsTable td .market-value{display:inline;padding:0;font-weight:600;white-space:nowrap}
-#holdingsTable td:nth-child(3) .market-value,#holdingsTable td:nth-child(4) .market-value{font-weight:400;color:#24354c}
-#holdingsTable td select{padding:6px 4px;width:70px}
-
-/* Unified professional holdings table: consistent typography and clean numeric cells. */
-#holdingsTable thead th{background:#e7edf5!important;color:#183451!important;font-size:11px!important;font-weight:800!important;letter-spacing:.45px!important;text-transform:uppercase!important;border-bottom:2px solid #a7b8ca!important;padding:15px 8px!important}
-#holdingsTable tbody td{font-size:12px!important;font-weight:500!important;color:#24354c!important;padding:15px 8px!important;line-height:1.4!important}
-#holdingsTable tbody tr:nth-child(even){background:#f8fafc}
-#holdingsTable tbody tr:hover{background:#edf4f9}
-#holdingsTable tbody td b{font-size:12px;font-weight:750;color:#163754}
-#holdingsTable .stock-name{font-size:11px;line-height:1.35;color:#718197;font-weight:400}
-#holdingsTable tbody td .market-value{font-size:12px!important;font-weight:500!important;color:#24354c!important;padding:0!important}
-#holdingsTable tbody td:nth-child(2),#holdingsTable tbody td:nth-child(5){font-weight:650!important}
-#holdingsTable tbody td.positive{color:#137d60!important;font-weight:700!important}
-#holdingsTable tbody td.negative{color:#c13f4c!important;font-weight:700!important}
-#holdingsTable tbody td.muted{color:#8c9bad!important;font-weight:500!important}
-#holdingsTable tbody td select{background:#f4f7fb!important;border:1px solid #d6e0ea!important;box-shadow:none!important;border-radius:6px!important;font-size:11px!important;padding:5px 4px!important}
-#holdingsTable th:not(:first-child),#holdingsTable td:not(:first-child){text-align:right!important}
-#holdingsTable td:nth-child(7),#holdingsTable th:nth-child(7){text-align:center!important}
-
-/* Holdings table design system: visual hierarchy and predictable cell formatting. */
-#holdingsTable{table-layout:fixed;min-width:1190px;border-collapse:separate;border-spacing:0}
-#holdingsTable thead th{position:sticky;top:0;z-index:1;background:#dce7f2!important;color:#17324e!important;font-size:11px!important;font-weight:800!important;letter-spacing:.4px!important;border-bottom:2px solid #9fb5ca!important;padding:14px 8px!important}
-#holdingsTable tbody td{font-variant-numeric:tabular-nums;font-size:12px!important;font-weight:500!important;color:#273b52!important;vertical-align:middle!important;padding:14px 8px!important;border-bottom:1px solid #e4eaf1!important}
-#holdingsTable tbody td:nth-child(1){text-align:left!important}
-#holdingsTable tbody td:nth-child(1) b{display:block;font-weight:750!important;color:#173b60!important}
-#holdingsTable tbody td:nth-child(1) .stock-name{display:block;margin:3px 0 0!important;font-weight:400!important;color:#718197!important;line-height:1.25}
-#holdingsTable tbody td .market-value{display:inline!important;border:0!important;background:none!important;box-shadow:none!important;padding:0!important;font-weight:500!important;color:inherit!important;font-size:12px!important}
-#holdingsTable tbody td:nth-child(2) .market-value,#holdingsTable tbody td:nth-child(5) .market-value{font-weight:650!important}
-#holdingsTable tbody td.positive{color:#117a5b!important;font-weight:700!important}
-#holdingsTable tbody td.negative{color:#bd4050!important;font-weight:700!important}
-#holdingsTable tbody td.muted{color:#8b9bae!important;font-weight:500!important}
-#holdingsTable tbody td:nth-child(7) select{font-size:11px!important;background:#f4f7fa!important;border:1px solid #d9e2ed!important;padding:5px 4px!important;width:70px}
-#holdingsTable th:not(:first-child),#holdingsTable td:not(:first-child){text-align:right!important}
-#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){text-align:center!important}
-#holdingsTable tbody tr:nth-child(even){background:#f8fafc}
-#holdingsTable tbody tr:hover{background:#edf4f9}
-\n#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:100px}#holdingsTable th:nth-child(3),#holdingsTable td:nth-child(3){width:92px}#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:108px}#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:90px}#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:100px}#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:74px}#holdingsTable th:nth-child(8),#holdingsTable td:nth-child(8){width:95px}#holdingsTable th:nth-child(9),#holdingsTable td:nth-child(9){width:95px}#holdingsTable th:nth-child(10),#holdingsTable td:nth-child(10){width:88px}#holdingsTable th:nth-child(11),#holdingsTable td:nth-child(11){width:88px}\n
-/* Holdings headers stay with the page scroll, below the fixed dashboard title bar. */
-.holdings-scroll{max-height:none;overflow:visible;border:1px solid #edf0f5;border-radius:12px}
-#holdingsTable{width:100%!important;min-width:0!important;table-layout:fixed!important}
-#holdingsTable thead{position:static!important}
-#holdingsTable thead th{position:sticky!important;top:130px!important;z-index:99990!important;background:#dce7f2!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:normal!important;word-break:normal!important;line-height:1.2!important;padding:8px 4px!important;font-size:10px!important}
-#holdingsTable th,#holdingsTable td{padding-left:4px!important;padding-right:4px!important}
-#holdingsTable th:nth-child(1),#holdingsTable td:nth-child(1){width:13%!important}
-#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:9%!important}
-#holdingsTable th:nth-child(3),#holdingsTable td:nth-child(3){width:9%!important}
-#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:10%!important}
-#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:8%!important}
-#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:9%!important}
-#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:7%!important}
-#holdingsTable th:nth-child(8),#holdingsTable td:nth-child(8){width:9%!important}
-#holdingsTable th:nth-child(9),#holdingsTable td:nth-child(9){width:9%!important}
-#holdingsTable th:nth-child(10),#holdingsTable td:nth-child(10){width:8%!important}
-#holdingsTable th:nth-child(11),#holdingsTable td:nth-child(11){width:9%!important}
-#holdingsTable td select{width:100%!important;min-width:0;max-width:100%}
-@media(max-width:760px){
- #holdingsTable thead th{top:114px!important;font-size:9px!important;padding:7px 2px!important}
- #holdingsTable tbody td{font-size:9px!important;padding:8px 2px!important}
- #holdingsTable .stock-name{font-size:9px!important;overflow-wrap:anywhere}
- #holdingsTable td select{font-size:9px!important;padding:3px 1px!important}
-}
-#holdingsTable thead th{font-size:10.5px!important}
-/* Keep every holdings label on one line with consistent compact wording. */
-#holdingsTable thead th{white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;text-overflow:clip!important;font-size:10px!important;letter-spacing:.2px!important;text-align:center!important}
-#holdingsTable thead th:first-child{text-align:left!important}
-</style></head><body><main><header class="sticky-header"><div class="topbar"><div class="eyebrow">MIKEY / WEALTH DASHBOARD</div><div class="refresh-area"><button type="button" id="refreshBtn" onclick="refreshDashboardAndSite()">↻ Refresh dashboard</button><span id="refreshStatus" role="status" aria-live="polite">Yahoo quotes on refresh; may be delayed</span></div></div><h1>Mikey's Investment Command Center</h1><div id="marketStatus" class="market-status" role="status" aria-live="polite"><span class="market-dot" aria-hidden="true"></span><strong>Checking market hours…</strong></div></header><div id="marketRefreshStatus" role="status" aria-live="polite" style="font-size:12px;color:#506579;margin:12px 0"></div><div class="cards"><section class="card"><div>Portfolio value</div><div class="number" id="total"></div></section><section class="card"><div>FXAIX allocation</div><div class="number" id="allocation"></div><div class="bar"><div id="bar"></div></div><p id="gap"></p></section></div><div class="summary"><div><strong>Building toward $185,000</strong></div><div style="min-width:210px"><span id="goaltext" class="progress-chip" role="button" tabindex="0" title="Open goal tracker" onclick="openGoals()"></span><div id="goalbar"><div id="goalfill"></div></div></div></div><div class="grid"><section class="card"><h2>Purchase planner</h2><label>Budget $ <input id="budget" type="number" value="500" min="0" oninput="render()"></label><p><label>Strategy <select id="strategy" onchange="render()"><option value="core">FXAIX first</option><option value="split">90/10 split</option><option value="stock">Selected stock only</option></select></label></p><p><label>Stock <select id="selected" onchange="render()"></select></label></p><div id="plan"></div><button onclick="record()">Record simulated purchase</button><p class="small">No brokerage orders are placed. Prices are manually maintained.</p></section><section class="card"><h2>Priority stock buckets</h2><div id="priorities"></div></section></div><section class="card"><div class="section-intro"><h2>Holdings &amp; Performance:</h2><span>Unrealized P/L based on entered prices</span></div><div class="holdings-scroll" id="holdingsScroll"><table id="holdingsTable"><thead><tr><th>Ticker</th><th>Value</th><th>Shares</th><th>Avg Cost</th><th>Price</th><th>Weight</th><th></th></tr></thead><tbody id="holdings"></tbody></table></div><p><input id="newTicker" placeholder="New ticker"><button onclick="add()">Add stock</button></p></section><section class="card"><h2>Future stock / IPO research list</h2><p class="small">ECHO is a research placeholder, not a verified ticker or recommendation.</p><input id="watchName" placeholder="Company or ticker"><input id="watchNote" placeholder="Research note"><button onclick="addWatch()">Add candidate</button><div class="scroll"><table><thead><tr><th>Candidate</th><th>Note</th><th>Decision</th><th></th></tr></thead><tbody id="watch"></tbody></table></div></section><section class="card"><button onclick="backup()">Export JSON backup</button> <label>Import backup <input type="file" accept=".json" onchange="restore(event)"></label><p class="small">Data saves to this browser's local storage, not across devices. Export backups before clearing browser data. No login or private access yet.</p></section></main>
-<dialog id="goalDialog" style="width:min(1100px,94vw);max-height:85vh;border:1px solid #d8e2ec;border-radius:18px;padding:24px;color:#24354c">
-<div class="eyebrow">PLAN &amp; TRACK</div><h2>Age 18 goal: $185,000 by May 30, 2034</h2>
-<p>Record month end portfolio values and compare them with your plan.</p>
-<div class="grid"><label>Starting balance $ <input id="goalStartBalance" type="number" min="0"></label><label>Weekly contribution $ <input id="goalWeekly" type="number" min="0"></label><label>Expected annual return % <input id="goalReturn" type="number" min="0" max="50" step="0.1"></label><label>Goal amount $ <input id="goalAmount" type="number" min="1"></label></div>
-<p><button onclick="saveGoalSettings()">Save assumptions</button> <button onclick="closeGoals()">Close</button></p>
-<h2>Monthly checkpoints</h2><div class="scroll" style="max-height:280px"><table><thead><tr><th>Month</th><th>Forecast</th><th>Actual</th><th>Difference</th><th>Status</th></tr></thead><tbody id="monthlyGoals"></tbody></table></div>
-<h2>Yearly checkpoints</h2><div class="scroll"><table><thead><tr><th>Year</th><th>Forecast</th><th>Actual</th><th>Difference</th><th>Status</th></tr></thead><tbody id="yearlyGoals"></tbody></table></div>
-<h2>Stock targets</h2><div class="scroll"><table><thead><tr><th>Ticker</th><th>Priority</th><th>Target $</th><th>Value now</th><th>Remaining</th><th>Avg cost goal $</th><th>Est. buy $</th></tr></thead><tbody id="stockTargets"></tbody></table></div>
-</dialog><script>
-const starter=[["FXAIX",3311.31,12.388,245.79,267.30],["AVGO",149.82,.45,384.67,332.95],["BABA",217.17,2.018,164.25,107.62],["CLG",265.06,7.201,56.13,36.81],["CLSK",82.65,10,12.72,8.265],["CRWV",57.86,1,109.81,57.86],["EBAY",120.52,1,93.92,120.52],["FSELX",518.42,8.9,44.75,58.25],["FSKAX",250.07,1.186,198.85,210.86],["GCT",115.96,2,32.80,57.98],["GME",25.72,1,24.88,25.72],["MARA",144.70,20,10.72,7.235],["META",688.80,1.003,669.37,686.745],["MRVL",230.30,1,300.96,230.30],["MSFT",533.88,1.004,420.34,531.755],["MU",889.75,1,268.96,889.75],["NBIS",162.635,1,224.63,162.635],["NVDA",429.72,2.005,150.25,214.325],["ONDS",221.07,37,9,5.975],["PLNT",52.99,1,71.23,52.99],["RBRK",561.90,5,80.16,112.38],["RIG",145.12,25,4.08,5.805],["RIOT",133.39,10,12.46,13.339],["SOUN",288.92,62,7.51,4.66],["SPIR",87,10,9.19,8.70],["TTWO",205.77,1,159.02,205.775],["VIST",357.02,5,45.12,71.4044],["VRT",200.36,1,84,200.36],["WULF",117.90,10,12.71,11.79],["YEXT",70.80,10,4.42,7.08]];
-const stockNames={"FXAIX":"Fidelity 500 Index Fund","AVGO":"Broadcom","BABA":"Alibaba Group","CLG":"Collegium Pharmaceutical","CLSK":"CleanSpark","CRWV":"CoreWeave","EBAY":"eBay","FSELX":"Fidelity Select Semiconductors Portfolio","FSKAX":"Fidelity Total Market Index Fund","GCT":"GigaCloud Technology","GME":"GameStop","MARA":"MARA Holdings","META":"Meta Platforms","MRVL":"Marvell Technology","MSFT":"Microsoft","MU":"Micron Technology","NBIS":"Nebius Group","NVDA":"NVIDIA","ONDS":"Ondas Holdings","PLNT":"Planet Fitness","RBRK":"Rubrik","RIG":"Transocean","RIOT":"Riot Platforms","SOUN":"SoundHound AI","SPIR":"Spire Global","TTWO":"Take-Two Interactive Software","VIST":"Vista Energy","VRT":"Vertiv Holdings","WULF":"TeraWulf","YEXT":"Yext"};
-const initial=()=>({holdings:starter.map(([ticker,value,shares,cost,price])=>({ticker,value,shares,cost,price,target:0,priority:"Later"})),watch:[{name:"ECHO",note:"Future company/ticker to verify",decision:"Later"}]});
-let data;
-let loadWarning="";
-try{
- const raw=localStorage.getItem("mikey-dashboard-v1");
- const saved=raw?JSON.parse(raw):null;
- if(saved && typeof saved==="object" && Array.isArray(saved.holdings)){
-  data=saved;
-  if(!Array.isArray(data.watch))data.watch=[]; if(!data.goal)data.goal={startDate:new Date().toISOString().slice(0,10),startBalance:data.holdings.reduce((a,h)=>a+(Number(h.value)||0),0),weeklyContribution:100,annualReturn:7,goalAmount:185000,actuals:{}}; if(!data.goal.actuals)data.goal.actuals={};
-  data.holdings=data.holdings.filter(h=>h && typeof h==="object" && typeof h.ticker==="string").map(h=>({
-   ...h, value:Number(h.value)||0, shares:Number(h.shares)||0,
-   cost:Number(h.cost)||0,price:Number(h.price)||0,
-   target:Number(h.target)||0,avgCostTarget:Number(h.avgCostTarget)||0,priority:h.priority||"Later"
-  }));
-  if(!data.holdings.length)loadWarning="Your saved holdings list is empty. Your original browser storage has not been overwritten.";
- }else{
-  data=initial();
-  if(raw)loadWarning="Saved data uses an unexpected format. Original browser storage was preserved; showing starter holdings temporarily.";
- }
-}catch(e){
- data=initial();
- loadWarning="Saved browser data could not be read. Original storage was preserved; showing starter holdings temporarily.";
-}
-if(!data.goal||typeof data.goal!=="object")data.goal={startDate:new Date().toISOString().slice(0,10),startBalance:data.holdings.reduce((a,h)=>a+(Number(h.value)||0),0),weeklyContribution:100,annualReturn:7,goalAmount:185000,goalDate:"2034-05-30",actuals:{}};if(!data.goal.actuals)data.goal.actuals={};
-const money=x=>Number(x||0).toLocaleString("en-US",{style:"currency",currency:"USD"}),esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),save=()=>localStorage.setItem("mikey-dashboard-v1",JSON.stringify(data));
-function update(i,key,v){data.holdings[i][key]=key==="priority"?v:Math.max(0,Number(String(v).replace(/[^0-9.]/g,""))||0);save();render()}
-function numbers(){let total=data.holdings.reduce((s,h)=>s+h.value,0),fx=data.holdings.find(h=>h.ticker==="FXAIX")?.value||0;return{total,fx,gap:Math.max(0,9*(total-fx)-fx)}}
-function proposed(){let n=numbers(),budget=Math.max(0,Number(document.getElementById("budget").value)||0),mode=document.getElementById("strategy").value,fx=mode==="core"?Math.min(budget,n.gap)+Math.max(0,budget-n.gap)*.9:(mode==="split"||mode==="priority")?budget*.9:0,items=[];if(fx>0)items.push(["FXAIX",fx]);let left=budget-fx,ticker=document.getElementById("selected").value;if(mode==="priority"){for(const priority of ["Now","Next"]){for(const h of data.holdings.filter(h=>h.ticker!=="FXAIX"&&h.priority===priority&&h.target>h.value)){if(left<=0)break;const amount=Math.min(left,h.target-h.value);items.push([h.ticker,amount]);left-=amount}}}if(left>0&&ticker)items.push([ticker,left]);return{fx,stock:budget-fx,budget,ticker,items}}
-function render(full=true){let n=numbers();document.getElementById("total").textContent=money(n.total);document.getElementById("allocation").textContent=(n.total?100*n.fx/n.total:0).toFixed(1)+"%";document.getElementById("bar").style.width=(n.total?100*n.fx/n.total:0)+"%";document.getElementById("gap").textContent="FXAIX-only purchases needed for 90%: "+money(n.gap);let s=document.getElementById("selected"),old=s.value;s.innerHTML=data.holdings.filter(h=>h.ticker!=="FXAIX").map(h=>'<option>'+esc(h.ticker)+'</option>').join("");if(old&&data.holdings.some(h=>h.ticker===old))s.value=old;let p=proposed();document.getElementById("plan").innerHTML="<p>"+p.items.map(([t,a])=>"Buy "+esc(t)+": <b>"+money(a)+"</b>").join("<br>")+"</p><p>After purchase FXAIX share: "+((n.total+p.budget)?100*(n.fx+p.fx)/(n.total+p.budget):0).toFixed(1)+"%</p>";if(full){document.getElementById("holdings").innerHTML=data.holdings.map((h,i)=>'<tr><td><b>'+esc(h.ticker)+'</b><span class="stock-name">'+(stockNames[h.ticker]?' · '+esc(stockNames[h.ticker]):'')+'</span></td>'+["value","shares","cost","price"].map(k=>'<td><span class="market-value">'+(k==="shares"?String(h.shares):k==="cost"?money(h.cost):money(h[k]))+'</span></td>').join("")+'<td>'+((n.total?100*h.value/n.total:0).toFixed(1))+'%</td><td><select onchange="update('+i+',\'priority\',this.value)">'+["Now","Next","Later","At limit","Hold"].map(x=>'<option '+(x===(h.target>0&&h.value>=h.target?"At limit":h.priority)?"selected":"")+'>'+x+'</option>').join("")+'</select></td></tr>').join("");document.getElementById("watch").innerHTML=data.watch.map((w,i)=>'<tr><td>'+esc(w.name)+'</td><td><input value="'+esc(w.note)+'" onchange="data.watch['+i+'].note=this.value;save()"></td><td><select onchange="data.watch['+i+'].decision=this.value;save()">'+["Later","Research","Yes","No"].map(x=>'<option '+(x===w.decision?"selected":"")+'>'+x+'</option>').join("")+'</select></td><td><button onclick="data.watch.splice('+i+',1);save();render()">Remove</button></td></tr>').join("")}document.getElementById("priorities").innerHTML=data.holdings.filter(h=>h.priority==="Now"||h.priority==="Next").map(h=>'<p><b>'+esc(h.ticker)+'</b> • '+esc(h.priority)+' • '+money(Math.max(0,h.target-h.value))+' to goal</p>').join("")||'<p class="small">Set priorities to Now or Next in the holdings table.</p>'}
-function add(){let ticker=document.getElementById("newTicker").value.trim().toUpperCase();if(!/^[A-Z0-9.-]{1,12}$/.test(ticker)||data.holdings.some(h=>h.ticker===ticker))return alert("Enter a new valid ticker");data.holdings.push({ticker,value:0,shares:0,cost:0,price:0,target:0,priority:"Later"});save();render()}
-function addWatch(){let name=document.getElementById("watchName").value.trim();if(!name)return;data.watch.push({name,note:document.getElementById("watchNote").value,decision:"Later"});save();render()}
-function record(){let p=proposed(),items=p.items;for(let [ticker,amount] of items){let h=data.holdings.find(h=>h.ticker===ticker);if(!h||!h.price)return alert("Enter current price for "+ticker)}if(!items.length||!confirm("Record these simulated purchases? No brokerage trades will be placed."))return;for(let [ticker,amount] of items){let h=data.holdings.find(h=>h.ticker===ticker),newShares=amount/h.price;h.cost=(h.shares*h.cost+amount)/(h.shares+newShares);h.shares+=newShares;h.value+=amount}save();render()}
-function openGoals(){let d=data.goal;document.getElementById("goalStartBalance").value=d.startBalance||0;document.getElementById("goalWeekly").value=d.weeklyContribution||100;document.getElementById("goalReturn").value=d.annualReturn||7;document.getElementById("goalAmount").value=d.goalAmount||185000;renderGoalTables();document.getElementById("goalDialog").showModal()}
-function closeGoals(){document.getElementById("goalDialog").close()}
-function saveGoalSettings(){data.goal.startBalance=+document.getElementById("goalStartBalance").value||0;data.goal.weeklyContribution=+document.getElementById("goalWeekly").value||0;data.goal.annualReturn=Math.min(50,+document.getElementById("goalReturn").value||0);data.goal.goalAmount=+document.getElementById("goalAmount").value||185000;save();renderGoalTables();render()}
-function setGoalActual(date,value){if(value==="")delete data.goal.actuals[date];else data.goal.actuals[date]=Math.max(0,+value||0);save();renderGoalTables()}
-function updateTarget(i,key,value){data.holdings[i][key]=Math.max(0,+value||0);save();renderGoalTables();render()}
-function goalForecast(date){let end=new Date(date+"T00:00:00Z"),anchor=new Date((data.goal.startDate||new Date().toISOString().slice(0,10))+"T00:00:00Z"),balance=+data.goal.startBalance||0;for(const [d,v] of Object.entries(data.goal.actuals).sort(([a],[b])=>a.localeCompare(b))){let day=new Date(d+"T00:00:00Z");if(day<end&&day>=anchor){anchor=day;balance=+v||0}}let weeks=Math.max(0,(end-anchor)/604800000),rate=Math.pow(1+(+data.goal.annualReturn||0)/100,1/52)-1,whole=Math.floor(weeks);for(let i=0;i<whole;i++)balance=balance*(1+rate)+(+data.goal.weeklyContribution||0);return balance*Math.pow(1+rate,weeks-whole)}
-function renderGoalTables(){let start=new Date((data.goal.startDate||new Date().toISOString().slice(0,10))+"T00:00:00Z"),stop=new Date("2034-05-30T00:00:00Z"),months=[],d=new Date(Date.UTC(start.getUTCFullYear(),start.getUTCMonth()+1,0));while(d<=stop){months.push(d.toISOString().slice(0,10));d=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+2,0))}if(!months.includes("2034-05-30"))months.push("2034-05-30");document.getElementById("monthlyGoals").innerHTML=months.map(date=>{let a=data.goal.actuals[date],f=goalForecast(date),diff=a==null?null:+a-f;return "<tr><td>"+new Date(date+"T00:00:00Z").toLocaleDateString("en-US",{month:"short",year:"numeric",timeZone:"UTC"})+"</td><td>"+money(f)+"</td><td><input type='number' min='0' step='0.01' aria-label='Actual "+date+"' value='"+(a??"")+"' onchange=\"setGoalActual('"+date+"',this.value)\"></td><td>"+(diff==null?"—":(diff>=0?"+":"")+money(diff))+"</td><td>"+(diff==null?"Not entered":diff>=0?"On track":"Behind")+"</td></tr>"}).join("");let years=[...new Set(months.map(x=>x.slice(0,4)))];document.getElementById("yearlyGoals").innerHTML=years.map(y=>{let ds=Object.keys(data.goal.actuals).filter(x=>x.startsWith(y)&&x<=y+"-12-31").sort(),a=ds.length?data.goal.actuals[ds[ds.length-1]]:null,date=y==="2034"?"2034-05-30":y+"-12-31",f=goalForecast(date),diff=a==null?null:+a-f;return "<tr><td>"+(y==="2034"?"May 30, 2034":y)+"</td><td>"+money(f)+"</td><td>"+(a==null?"—":money(a))+"</td><td>"+(diff==null?"—":(diff>=0?"+":"")+money(diff))+"</td><td>"+(diff==null?"Not entered":diff>=0?"On track":"Behind")+"</td></tr>"}).join("");document.getElementById("stockTargets").innerHTML=data.holdings.filter(h=>h.ticker!=="FXAIX").map(h=>{let i=data.holdings.indexOf(h),buy=h.shares>0&&h.price>0&&h.avgCostTarget>h.price&&h.avgCostTarget<h.cost?h.shares*(h.cost-h.avgCostTarget)/(h.avgCostTarget-h.price)*h.price:0;return "<tr><td>"+esc(h.ticker)+"</td><td><select onchange=\"update("+i+",'priority',this.value)\">"+["Now","Next","Later","Hold"].map(x=>"<option "+(x===h.priority?"selected":"")+">"+x+"</option>").join("")+"</select></td><td><input aria-label='Target value "+esc(h.ticker)+"' type='number' min='0' value='"+(h.target||0)+"' onchange=\"updateTarget("+i+",'target',this.value)\"></td><td>"+money(h.value)+"</td><td>"+money(Math.max(0,h.target-h.value))+"</td><td><input aria-label='Average cost goal "+esc(h.ticker)+"' type='number' min='0' step='0.01' value='"+(h.avgCostTarget||0)+"' onchange=\"updateTarget("+i+",'avgCostTarget',this.value)\"></td><td>"+(buy?money(buy):"—")+"</td></tr>"}).join("")}
-function backup(){let a=document.createElement("a"),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.href=url;a.download="mikey-investments.json";a.click();URL.revokeObjectURL(url)}
-function restore(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{try{let d=JSON.parse(t);if(!Array.isArray(d.holdings)||!Array.isArray(d.watch))throw Error();if(confirm("Replace locally saved data?")){data=d;if(!data.goal)data.goal={startDate:new Date().toISOString().slice(0,10),startBalance:data.holdings.reduce((a,h)=>a+(Number(h.value)||0),0),weeklyContribution:100,annualReturn:7,goalAmount:185000,goalDate:"2034-05-30",actuals:{}};if(!data.goal.actuals)data.goal.actuals={};for(const h of data.holdings)if(h.avgCostTarget==null)h.avgCostTarget=0;save();render()}}catch{alert("Invalid backup")}})}
-
-function renderPerformance(){
- const total=data.holdings.reduce((s,h)=>s+(Number(h.value)||0),0);
- const basis=data.holdings.reduce((s,h)=>s+(Number(h.shares)||0)*(Number(h.cost)||0),0);
- const gain=total-basis, pct=basis?100*gain/basis:0, todayAvailable=data.holdings.some(h=>Number(h.previousClose)>0), today=data.holdings.reduce((sum,h)=>sum+(Number(h.previousClose)>0?(Number(h.shares)||0)*((Number(h.price)||0)-Number(h.previousClose)):0),0);
- const cards=document.querySelector(".cards");
- if(!document.getElementById("basisCard")){
-  cards.insertAdjacentHTML("beforeend",'<section class="card" id="basisCard"><div>Total cost basis</div><div class="number" id="basisTotal"></div><div class="metric-note">Shares × average cost</div></section><section class="card"><div>Total unrealized gain / loss</div><div class="number" id="gainTotal"></div><div class="metric-note" id="gainPct"></div></section><section class="card"><div>Today\'s gain / loss</div><div class="number muted" id="todayTotal">—</div><div class="metric-note" id="todayNote">Previous close data not connected</div></section>');
- }
- document.getElementById("basisTotal").textContent=money(basis);const todayEl=document.getElementById("todayTotal"),todayNote=document.getElementById("todayNote");todayEl.textContent=todayAvailable?(today>=0?"+":"")+money(today):"—";todayEl.className="number "+(todayAvailable?(today>=0?"positive":"negative"):"muted");todayNote.textContent=todayAvailable?"Based on available previous-close quotes":"Previous close data not connected";
- const g=document.getElementById("gainTotal");g.textContent=(gain>=0?"+":"")+money(gain);g.className="number "+(gain>=0?"positive":"negative");
- document.getElementById("gainPct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"% total unrealized return";
- document.getElementById("goaltext").textContent=(100*total/(Number(data.goal.goalAmount)||185000)).toFixed(1)+"% complete";
- document.getElementById("goalfill").style.width=Math.min(100,100*total/(Number(data.goal.goalAmount)||185000))+"%";
- const table=document.querySelector("#holdings").closest("table");
- const tr=table.querySelector("thead tr");
- if(!tr.dataset.extended){tr.insertAdjacentHTML("beforeend","<th>Basis</th><th>Gain/Loss</th><th>Return</th><th>Today</th>");const headerCells=[...tr.cells];[0,1,10,8,9,7,2,3,4,5,6].forEach(i=>tr.appendChild(headerCells[i]));const labels=["Ticker","Value","Today","Gain/Loss","Return","Basis","Shares","Avg Cost","Price","Weight",""],details=["Stock symbol","Current holding value in dollars","Today’s change in holding value in dollars","Unrealized gain or loss in dollars","Total return as a percentage","Cost basis in dollars","Number of shares","Average cost per share in dollars","Last price in dollars","Portfolio allocation percentage","Priority selector"];[...tr.cells].forEach((cell,i)=>{cell.textContent=labels[i];cell.title=labels[i]?details[i]:"";cell.setAttribute("aria-label",details[i])});tr.dataset.extended="1"}
- [...table.querySelectorAll("tbody tr")].forEach((row,i)=>{
- const hold=data.holdings[i];if(!hold)return;
- const b=(Number(hold.shares)||0)*(Number(hold.cost)||0),v=Number(hold.value)||0,g=v-b,p=b?100*g/b:0,w=total?100*v/total:0;
- const cells=row.querySelectorAll("td");while(row.cells.length>7)row.deleteCell(-1);
- row.insertAdjacentHTML("beforeend",'<td>'+money(b)+'</td><td class="'+(g>=0?"positive":"negative")+'">'+(g>=0?"+":"")+money(g)+'</td><td class="'+(p>=0?"positive":"negative")+'">'+(p>=0?"+":"")+p.toFixed(1)+'%</td><td class="'+(Number(hold.previousClose)>0?(hold.price>=hold.previousClose?"positive":"negative"):"muted")+'">'+(Number(hold.previousClose)>0?((hold.price>=hold.previousClose?"+":"")+money(hold.shares*(hold.price-hold.previousClose))):"—")+'</td>');const rowCells=[...row.cells];[0,1,10,8,9,7,2,3,4,5,6].forEach(i=>row.appendChild(rowCells[i]));
- });
-}
-// All market quotes are read from a published, timestamped snapshot.
-// User-entered shares, average cost, watchlist and priorities are never replaced.
-async function loadPublishedQuotes(){
- const response=await fetch("./quotes.json?at="+Date.now(),{cache:"no-store"});
- if(!response.ok)throw Error("Quote snapshot unavailable (HTTP "+response.status+")");
- const payload=await response.json();
- if(!payload||typeof payload.quotes!=="object"||!payload.updatedAt)throw Error("Invalid quote snapshot");
- const updated=Date.parse(payload.updatedAt);
- if(!Number.isFinite(updated))throw Error("Invalid quote timestamp");
- let changed=0;
- for(const holding of data.holdings){
-  const quote=payload.quotes[holding.ticker];
-  if(!quote)continue;
-  const price=Number(quote.price);
-  if(!Number.isFinite(price)||price<=0)continue;
-  holding.price=price;
-  holding.value=Number((Number(holding.shares||0)*price).toFixed(4));
-  const previous=Number(quote.previousClose);
-  holding.previousClose=Number.isFinite(previous)&&previous>0?previous:null;
-  holding.quoteTime=quote.asOf||payload.updatedAt;
-  holding.quoteSource=quote.source||"Published quote snapshot";
-  changed++;
- }
- if(changed){data.lastMarketRefresh=payload.updatedAt;save();render()}
- return {changed,total:data.holdings.length,updatedAt:payload.updatedAt};
-}
-let refreshInProgress=false;
-async function refreshDashboardAndSite(){
- if(refreshInProgress)return;
- refreshInProgress=true;
- const button=document.getElementById("refreshBtn");
- const status=document.getElementById("refreshStatus");
- const show=message=>{if(status)status.textContent=message};
- if(button)button.disabled=true;
- try{
-  show("Checking published dashboard version…");
-  let versionCheckError=null;
-  try{
-   // Fetch the actual published HTML, not a manifest that can lag behind deployment.
-   const response=await fetch("./?dashboard_check="+Date.now(),{cache:"no-store"});
-   if(!response.ok)throw Error("HTML HTTP "+response.status);
-   const html=await response.text();
-   const publishedBuild=html.match(/<meta\s+name=["']dashboard-build["']\s+content=["']([^"']+)["']/i)?.[1];
-   if(!publishedBuild)throw Error("Published HTML has no build marker");
-   const current=document.querySelector('meta[name="dashboard-build"]')?.content;
-   if(current!==publishedBuild){
-    show("New dashboard version available. Loading latest dashboard…");
-    const url=new URL(location.href);
-    url.searchParams.set("dashboard_build",publishedBuild);
-    location.replace(url.href);
-    return;
-   }
-  }catch(e){versionCheckError="Dashboard version check failed: "+e.message}
-  show("Checking market prices…");
-  try{
-   const q=await loadPublishedQuotes();
-   const stale=Date.now()-Date.parse(q.updatedAt)>36*60*60*1000;
-   show((versionCheckError?versionCheckError+"; ":"")+
-     "Prices refreshed at "+new Date(q.updatedAt).toLocaleString()+
-     (stale?" (snapshot may be stale)":""));
-  }catch(e){show((versionCheckError?versionCheckError+"; ":"")+"Market prices unavailable: "+e.message+". Saved investments unchanged.")}
- }finally{refreshInProgress=false;if(button)button.disabled=false}
-}
-const originalRender=render;
-render=function(full=true){originalRender(full);renderPerformance()};
-try{
- render();
- if(loadWarning){
-  const notice=document.createElement("div");
-  notice.setAttribute("role","alert");
-  notice.style.cssText="background:#fff3cd;color:#6c4d00;padding:14px;border-radius:9px;margin:10px 0";
-  notice.textContent=loadWarning;
-  document.querySelector(".cards").before(notice);
- }
-}catch(error){
- const notice=document.createElement("div");
- notice.setAttribute("role","alert");
- notice.style.cssText="background:#fff0f0;color:#a12222;padding:16px;border-radius:9px;margin:12px 0";
- notice.textContent="Dashboard rendering error: "+(error && error.message?error.message:String(error))+". Your saved browser data has not been cleared.";
- document.querySelector(".cards").before(notice);
- console.error("Dashboard initialization failed",error);
-}
-
-function easterSundayUTC(year){const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=(h+l-7*m+114)%31+1;return new Date(Date.UTC(year,month-1,day))}
-function nthWeekdayUTC(year,month,weekday,n){const d=new Date(Date.UTC(year,month,1));return 1+(weekday-d.getUTCDay()+7)%7+7*(n-1)}
-function lastWeekdayUTC(year,month,weekday){const d=new Date(Date.UTC(year,month+1,0));return d.getUTCDate()-(d.getUTCDay()-weekday+7)%7}
-function nyseHolidayMap(year){const map=new Map(),add=(d,name)=>map.set(d.toISOString().slice(0,10),name),observed=(m,day,name)=>{const d=new Date(Date.UTC(year,m-1,day));if(d.getUTCDay()===6)d.setUTCDate(d.getUTCDate()-1);else if(d.getUTCDay()===0)d.setUTCDate(d.getUTCDate()+1);add(d,name)};if(year!==2028)observed(1,1,"New Year's Day");observed(6,19,"Juneteenth");observed(7,4,"Independence Day");observed(12,25,"Christmas Day");for(const [m,n,label] of [[1,3,"Martin Luther King Jr. Day"],[2,3,"Washington's Birthday"],[9,1,"Labor Day"],[11,4,"Thanksgiving Day"]])add(new Date(Date.UTC(year,m-1,nthWeekdayUTC(year,m-1,m===11?4:1,n))),label);add(new Date(Date.UTC(year,4,lastWeekdayUTC(year,4,1))),"Memorial Day");const easter=easterSundayUTC(year);easter.setUTCDate(easter.getUTCDate()-2);add(easter,"Good Friday");return map}
-function etParts(date){const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",weekday:"short",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(date),out={};for(const p of parts)if(p.type!=="literal")out[p.type]=p.value;return out}
-function renderMarketStatus(now=new Date()){const el=document.getElementById("marketStatus");if(!el)return;const p=etParts(now),ymd=p.year+"-"+p.month+"-"+p.day,minute=+p.hour*60 + +p.minute,weekday=p.weekday,holiday=nyseHolidayMap(+p.year).get(ymd),earlyClose=ymd==="2026-11-27"||ymd==="2027-11-26"||ymd==="2028-11-24"||ymd==="2026-12-24"||ymd==="2028-07-03",closeAt=earlyClose?13*60:16*60,isTradingDay=weekday!=="Sat"&&weekday!=="Sun"&&!holiday,isOpen=isTradingDay&&minute>=570&&minute<closeAt;let title,detail;if(isOpen){title="Market is open";detail="Regular session: 9:30 AM–"+(earlyClose?"1:00":"4:00")+" PM ET"}else if(holiday){title="Market is closed";detail=holiday+" · Regular hours are 9:30 AM–4:00 PM ET"}else if(weekday==="Sat"||weekday==="Sun"){title="Market is closed";detail="Weekend · Regular hours are 9:30 AM–4:00 PM ET"}else if(earlyClose&&minute>=closeAt){title="Market is closed";detail="Early close today at 1:00 PM ET · Regular hours are 9:30 AM–4:00 PM ET"}else if(minute<570){title="Market is closed";detail="Opens today at 9:30 AM ET · Closes at "+(earlyClose?"1:00":"4:00")+" PM ET"}else{title="Market is closed";detail="Closed for today · Regular hours are 9:30 AM–4:00 PM ET"}el.classList.toggle("is-open",isOpen);el.classList.toggle("is-closed",!isOpen);el.innerHTML='<span class="market-dot" aria-hidden="true"></span><strong>'+title+'</strong><span class="market-hours">'+detail+'</span>'}
-if(new URLSearchParams(location.search).has("dashboard_build")){const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("dashboard_build");history.replaceState(history.state,"",cleanUrl.pathname+cleanUrl.search+cleanUrl.hash)}
-renderMarketStatus();setInterval(()=>renderMarketStatus(),60000);
-</script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mikey Investment Dashboard</title>
+    <meta
+      name="dashboard-build"
+      content="705be280614c7f8b1efa0e586daa3eff78d19be9"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="sticky-header">
+        <div class="topbar">
+          <div class="eyebrow">MIKEY / WEALTH DASHBOARD</div>
+          <div class="refresh-area">
+            <button
+              type="button"
+              id="refreshBtn"
+              onclick="refreshDashboardAndSite()"
+            >
+              ↻ Refresh dashboard</button
+            ><span id="refreshStatus" role="status" aria-live="polite"
+              >Yahoo Finance snapshot · may be delayed</span
+            >
+          </div>
+        </div>
+        <h1>Mikey's Investment Command Center</h1>
+        <div
+          id="marketStatus"
+          class="market-status"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="market-dot" aria-hidden="true"></span
+          ><strong>Checking market hours…</strong>
+        </div>
+      </header>
+      <div
+        id="marketRefreshStatus"
+        role="status"
+        aria-live="polite"
+        style="font-size: 12px; color: #506579; margin: 12px 0"
+      >
+        Prices are from a scheduled Yahoo Finance snapshot and may be delayed.
+        They are not a Fidelity feed.
+      </div>
+      <div class="cards">
+        <section class="card">
+          <div>Portfolio value</div>
+          <div class="number" id="total"></div>
+        </section>
+        <section class="card">
+          <div>FXAIX allocation</div>
+          <div class="number" id="allocation"></div>
+          <div class="bar"><div id="bar"></div></div>
+          <p id="gap"></p>
+        </section>
+      </div>
+      <div class="summary">
+        <div><strong>Building toward $185,000</strong></div>
+        <div style="min-width: 210px">
+          <span
+            id="goaltext"
+            class="progress-chip"
+            role="button"
+            tabindex="0"
+            title="Open goal tracker"
+            onclick="openGoals()"
+          ></span>
+          <div id="goalbar"><div id="goalfill"></div></div>
+        </div>
+      </div>
+      <div class="grid">
+        <section class="card">
+          <h2>Purchase planner</h2>
+          <label
+            >Budget $
+            <input
+              id="budget"
+              type="number"
+              value="500"
+              min="0"
+              oninput="render()"
+          /></label>
+          <p>
+            <label
+              >Strategy
+              <select id="strategy" onchange="render()">
+                <option value="core">FXAIX first</option>
+                <option value="split">90/10 split</option>
+                <option value="stock">Selected stock only</option>
+              </select></label
+            >
+          </p>
+          <p>
+            <label
+              >Stock
+              <select id="selected" onchange="render()"></select
+            ></label>
+          </p>
+          <div id="plan"></div>
+          <button onclick="record()">Record simulated purchase</button>
+          <p class="small">
+            No brokerage orders are placed. Prices come from the published Yahoo
+            Finance snapshot and may be delayed.
+          </p>
+        </section>
+        <section class="card">
+          <h2>Priority stock buckets</h2>
+          <div id="priorities"></div>
+        </section>
+      </div>
+      <section class="card">
+        <div class="section-intro">
+          <h2>Holdings &amp; Performance:</h2>
+          <span
+            >Performance uses imported holdings and the published price
+            snapshot</span
+          >
+        </div>
+        <div class="holdings-scroll" id="holdingsScroll">
+          <table id="holdingsTable">
+            <thead>
+              <tr>
+                <th>Ticker</th>
+                <th>Value</th>
+                <th>Shares</th>
+                <th>Avg Cost</th>
+                <th>Price</th>
+                <th>Weight</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="holdings"></tbody>
+          </table>
+        </div>
+        <div id="holdingsEmpty" class="small" style="padding: 14px 4px">
+          No holdings yet. Import a Fidelity positions CSV or add a ticker.
+        </div>
+        <p id="portfolioStatus" role="status" aria-live="polite"></p>
+        <div class="holding-import">
+          <label for="fidelityCsv">Import Fidelity positions CSV</label
+          ><input
+            id="fidelityCsv"
+            type="file"
+            accept=".csv,text/csv"
+            onchange="importFidelityCsv(event)"
+          /><span class="small"
+            >Read locally in this browser; no file upload or live account
+            link.</span
+          >
+        </div>
+        <p>
+          <input id="newTicker" placeholder="New ticker" /><button
+            onclick="add()"
+          >
+            Add stock
+          </button>
+        </p>
+      </section>
+      <section class="card">
+        <h2>Future stock / IPO research list</h2>
+        <p class="small">
+          Track prospective companies or tickers here. No sample candidates are
+          preloaded.
+        </p>
+        <input id="watchName" placeholder="Company or ticker" /><input
+          id="watchNote"
+          placeholder="Research note"
+        /><button onclick="addWatch()">Add candidate</button>
+        <div class="scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Candidate</th>
+                <th>Note</th>
+                <th>Decision</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="watch"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="card">
+        <button onclick="backup()">Export JSON backup</button>
+        <label
+          >Import backup
+          <input type="file" accept=".json" onchange="restore(event)"
+        /></label>
+        <p class="small">
+          Holdings and settings save in this browser only. Fidelity CSV imports
+          are not a live account link and do not sync across devices. Export a
+          JSON backup before clearing browser data.
+        </p>
+      </section>
+    </main>
+    <dialog
+      id="goalDialog"
+      style="
+        width: min(1100px, 94vw);
+        max-height: 85vh;
+        border: 1px solid #d8e2ec;
+        border-radius: 18px;
+        padding: 24px;
+        color: #24354c;
+      "
+    >
+      <div class="eyebrow">PLAN &amp; TRACK</div>
+      <h2>Age 18 goal: $185,000 by May 30, 2034</h2>
+      <p>Record month end portfolio values and compare them with your plan.</p>
+      <div class="grid">
+        <label
+          >Starting balance $
+          <input id="goalStartBalance" type="number" min="0" /></label
+        ><label
+          >Weekly contribution $
+          <input id="goalWeekly" type="number" min="0" /></label
+        ><label
+          >Expected annual return %
+          <input
+            id="goalReturn"
+            type="number"
+            min="0"
+            max="50"
+            step="0.1" /></label
+        ><label
+          >Goal amount $ <input id="goalAmount" type="number" min="1"
+        /></label>
+      </div>
+      <p>
+        <button onclick="saveGoalSettings()">Save assumptions</button>
+        <button onclick="closeGoals()">Close</button>
+      </p>
+      <h2>Monthly checkpoints</h2>
+      <div class="scroll" style="max-height: 280px">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Forecast</th>
+              <th>Actual</th>
+              <th>Difference</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="monthlyGoals"></tbody>
+        </table>
+      </div>
+      <h2>Yearly checkpoints</h2>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Forecast</th>
+              <th>Actual</th>
+              <th>Difference</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="yearlyGoals"></tbody>
+        </table>
+      </div>
+      <h2>Stock targets</h2>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Priority</th>
+              <th>Target $</th>
+              <th>Value now</th>
+              <th>Remaining</th>
+              <th>Avg cost goal $</th>
+              <th>Est. buy $</th>
+            </tr>
+          </thead>
+          <tbody id="stockTargets"></tbody>
+        </table>
+      </div>
+    </dialog>
+    <script src="./js/dashboard.js"></script>
+    <script src="./js/market-status.js"></script>
+  </body>
+</html>
