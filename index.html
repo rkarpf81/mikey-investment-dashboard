@@ -8,7 +8,28 @@
 </style></head><body><main><header class="sticky-header"><div class="topbar"><div class="eyebrow">MIKEY / WEALTH DASHBOARD</div><div class="refresh-area"><button type="button" id="refreshBtn" onclick="refreshDashboard()">↻ Refresh dashboard</button><span id="refreshStatus" role="status" aria-live="polite">Yahoo quotes on refresh; may be delayed</span></div></div><h1>Mikey's Investment Command Center</h1></header><div id="marketRefreshStatus" role="status" aria-live="polite" style="font-size:12px;color:#506579;margin:12px 0"></div><div class="cards"><section class="card"><div>Portfolio value</div><div class="number" id="total"></div></section><section class="card"><div>FXAIX allocation</div><div class="number" id="allocation"></div><div class="bar"><div id="bar"></div></div><p id="gap"></p></section></div><div class="summary"><div><strong>Building toward $185,000</strong><p>Long-term goal by age 18 • Based on manually entered holdings</p></div><div style="min-width:210px"><span id="goaltext" class="progress-chip"></span><div id="goalbar"><div id="goalfill"></div></div></div></div><div class="grid"><section class="card"><h2>Purchase planner</h2><label>Budget $ <input id="budget" type="number" value="500" min="0" oninput="render()"></label><p><label>Strategy <select id="strategy" onchange="render()"><option value="core">FXAIX first</option><option value="split">90/10 split</option><option value="stock">Selected stock only</option></select></label></p><p><label>Stock <select id="selected" onchange="render()"></select></label></p><div id="plan"></div><button onclick="record()">Record simulated purchase</button><p class="small">No brokerage orders are placed. Prices are manually maintained.</p></section><section class="card"><h2>Priority stock buckets</h2><div id="priorities"></div></section></div><section class="card"><div class="section-intro"><h2>Complete holdings & performance</h2><span>Unrealized P/L based on entered prices</span></div><p>All original positions retained. Enter current market values and average costs to calculate unrealized returns. Today’s gain/loss requires a previous closing value; blank means unavailable. Target % shows each holding’s current portfolio weight. The age-18 allocation goal is 90% FXAIX and 10% in all other holdings combined.</p><div class="scroll"><table><thead><tr><th>Ticker</th><th>Value $</th><th>Shares</th><th>Avg cost $</th><th>Last Price $</th><th>Portfolio %</th><th>Priority</th></tr></thead><tbody id="holdings"></tbody></table></div><p><input id="newTicker" placeholder="New ticker"><button onclick="add()">Add stock</button></p></section><section class="card"><h2>Future stock / IPO research list</h2><p class="small">ECHO is a research placeholder, not a verified ticker or recommendation.</p><input id="watchName" placeholder="Company or ticker"><input id="watchNote" placeholder="Research note"><button onclick="addWatch()">Add candidate</button><div class="scroll"><table><thead><tr><th>Candidate</th><th>Note</th><th>Decision</th><th></th></tr></thead><tbody id="watch"></tbody></table></div></section><section class="card"><button onclick="backup()">Export JSON backup</button> <label>Import backup <input type="file" accept=".json" onchange="restore(event)"></label><p class="small">Data saves to this browser's local storage, not across devices. Export backups before clearing browser data. No login or private access yet.</p></section></main><script>
 const starter=[["FXAIX",3311.31,12.388,245.79,267.30],["AVGO",149.82,.45,384.67,332.95],["BABA",217.17,2.018,164.25,107.62],["CLG",265.06,7.201,56.13,36.81],["CLSK",82.65,10,12.72,8.265],["CRWV",57.86,1,109.81,57.86],["EBAY",120.52,1,93.92,120.52],["FSELX",518.42,8.9,44.75,58.25],["FSKAX",250.07,1.186,198.85,210.86],["GCT",115.96,2,32.80,57.98],["GME",25.72,1,24.88,25.72],["MARA",144.70,20,10.72,7.235],["META",688.80,1.003,669.37,686.745],["MRVL",230.30,1,300.96,230.30],["MSFT",533.88,1.004,420.34,531.755],["MU",889.75,1,268.96,889.75],["NBIS",162.635,1,224.63,162.635],["NVDA",429.72,2.005,150.25,214.325],["ONDS",221.07,37,9,5.975],["PLNT",52.99,1,71.23,52.99],["RBRK",561.90,5,80.16,112.38],["RIG",145.12,25,4.08,5.805],["RIOT",133.39,10,12.46,13.339],["SOUN",288.92,62,7.51,4.66],["SPIR",87,10,9.19,8.70],["TTWO",205.77,1,159.02,205.775],["VIST",357.02,5,45.12,71.4044],["VRT",200.36,1,84,200.36],["WULF",117.90,10,12.71,11.79],["YEXT",70.80,10,4.42,7.08]];
 const initial=()=>({holdings:starter.map(([ticker,value,shares,cost,price])=>({ticker,value,shares,cost,price,target:0,priority:"Later"})),watch:[{name:"ECHO",note:"Future company/ticker to verify",decision:"Later"}]});
-let data;try{data=JSON.parse(localStorage.getItem("mikey-dashboard-v1"))||initial()}catch{data=initial()}
+let data;
+let loadWarning="";
+try{
+ const raw=localStorage.getItem("mikey-dashboard-v1");
+ const saved=raw?JSON.parse(raw):null;
+ if(saved && typeof saved==="object" && Array.isArray(saved.holdings)){
+  data=saved;
+  if(!Array.isArray(data.watch))data.watch=[];
+  data.holdings=data.holdings.filter(h=>h && typeof h==="object" && typeof h.ticker==="string").map(h=>({
+   ...h, value:Number(h.value)||0, shares:Number(h.shares)||0,
+   cost:Number(h.cost)||0,price:Number(h.price)||0,
+   target:Number(h.target)||0,priority:h.priority||"Later"
+  }));
+  if(!data.holdings.length)loadWarning="Your saved holdings list is empty. Your original browser storage has not been overwritten.";
+ }else{
+  data=initial();
+  if(raw)loadWarning="Saved data uses an unexpected format. Original browser storage was preserved; showing starter holdings temporarily.";
+ }
+}catch(e){
+ data=initial();
+ loadWarning="Saved browser data could not be read. Original storage was preserved; showing starter holdings temporarily.";
+}
 const money=x=>Number(x||0).toLocaleString("en-US",{style:"currency",currency:"USD"}),esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])),save=()=>localStorage.setItem("mikey-dashboard-v1",JSON.stringify(data));
 function update(i,key,v){data.holdings[i][key]=key==="priority"?v:Math.max(0,Number(String(v).replace(/[^0-9.]/g,""))||0);save();render()}
 function numbers(){let total=data.holdings.reduce((s,h)=>s+h.value,0),fx=data.holdings.find(h=>h.ticker==="FXAIX")?.value||0;return{total,fx,gap:Math.max(0,9*(total-fx)-fx)}}
@@ -87,5 +108,21 @@ async function refreshDashboard(){
 }
 const originalRender=render;
 render=function(full=true){originalRender(full);renderPerformance()};
-render();
+try{
+ render();
+ if(loadWarning){
+  const notice=document.createElement("div");
+  notice.setAttribute("role","alert");
+  notice.style.cssText="background:#fff3cd;color:#6c4d00;padding:14px;border-radius:9px;margin:10px 0";
+  notice.textContent=loadWarning;
+  document.querySelector(".cards").before(notice);
+ }
+}catch(error){
+ const notice=document.createElement("div");
+ notice.setAttribute("role","alert");
+ notice.style.cssText="background:#fff0f0;color:#a12222;padding:16px;border-radius:9px;margin:12px 0";
+ notice.textContent="Dashboard rendering error: "+(error && error.message?error.message:String(error))+". Your saved browser data has not been cleared.";
+ document.querySelector(".cards").before(notice);
+ console.error("Dashboard initialization failed",error);
+}
 </script></body></html>
