@@ -87,22 +87,28 @@
 #holdingsTable tbody tr:nth-child(even){background:#f8fafc}
 #holdingsTable tbody tr:hover{background:#edf4f9}
 \n#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:100px}#holdingsTable th:nth-child(3),#holdingsTable td:nth-child(3){width:92px}#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:108px}#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:90px}#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:100px}#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:74px}#holdingsTable th:nth-child(8),#holdingsTable td:nth-child(8){width:95px}#holdingsTable th:nth-child(9),#holdingsTable td:nth-child(9){width:95px}#holdingsTable th:nth-child(10),#holdingsTable td:nth-child(10){width:88px}#holdingsTable th:nth-child(11),#holdingsTable td:nth-child(11){width:88px}\n
-/* Keep the holdings list scrollable with its header pinned, and fit all seven columns. */
-#holdingsScroll{max-height:min(70vh,680px);overflow:auto;overscroll-behavior:contain}
+/* Keep the holdings column headings visible as the page scrolls past the stock list. */
+#holdingsScroll{max-height:none!important;overflow:visible!important}
 #holdingsTable{width:100%!important;min-width:0!important;table-layout:fixed!important}
-#holdingsTable th,#holdingsTable td{white-space:normal!important;overflow-wrap:anywhere}
-#holdingsTable thead th{position:sticky!important;top:0!important;z-index:5!important;background:#dce7f2!important}
-#holdingsTable th:nth-child(1),#holdingsTable td:nth-child(1){width:26%!important}
-#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:15%!important}
+#holdingsTable thead th{position:sticky!important;top:122px!important;z-index:100!important;background:#dce7f2!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:normal!important;word-break:normal!important;line-height:1.2!important;padding:8px 4px!important;font-size:10px!important}
+#holdingsTable th,#holdingsTable td{padding-left:4px!important;padding-right:4px!important}
+#holdingsTable th:nth-child(1),#holdingsTable td:nth-child(1){width:13%!important}
+#holdingsTable th:nth-child(2),#holdingsTable td:nth-child(2){width:9%!important}
 #holdingsTable th:nth-child(3),#holdingsTable td:nth-child(3){width:9%!important}
-#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:14%!important}
-#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:14%!important}
-#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:12%!important}
-#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:10%!important}
-#holdingsTable td select{width:100%!important;min-width:0}
+#holdingsTable th:nth-child(4),#holdingsTable td:nth-child(4){width:10%!important}
+#holdingsTable th:nth-child(5),#holdingsTable td:nth-child(5){width:8%!important}
+#holdingsTable th:nth-child(6),#holdingsTable td:nth-child(6){width:9%!important}
+#holdingsTable th:nth-child(7),#holdingsTable td:nth-child(7){width:7%!important}
+#holdingsTable th:nth-child(8),#holdingsTable td:nth-child(8){width:9%!important}
+#holdingsTable th:nth-child(9),#holdingsTable td:nth-child(9){width:9%!important}
+#holdingsTable th:nth-child(10),#holdingsTable td:nth-child(10){width:8%!important}
+#holdingsTable th:nth-child(11),#holdingsTable td:nth-child(11){width:9%!important}
+#holdingsTable td select{width:100%!important;min-width:0;max-width:100%}
 @media(max-width:760px){
- #holdingsTable{min-width:760px!important}
- #holdingsScroll{max-height:65vh}
+ #holdingsTable thead th{top:96px!important;font-size:9px!important;padding:7px 2px!important}
+ #holdingsTable tbody td{font-size:9px!important;padding:8px 2px!important}
+ #holdingsTable .stock-name{font-size:9px!important;overflow-wrap:anywhere}
+ #holdingsTable td select{font-size:9px!important;padding:3px 1px!important}
 }
 </style></head><body><main><header class="sticky-header"><div class="topbar"><div class="eyebrow">MIKEY / WEALTH DASHBOARD</div><div class="refresh-area"><button type="button" id="refreshBtn" onclick="refreshDashboardAndSite()">↻ Refresh dashboard</button><span id="refreshStatus" role="status" aria-live="polite">Yahoo quotes on refresh; may be delayed</span></div></div><h1>Mikey's Investment Command Center</h1></header><div id="marketRefreshStatus" role="status" aria-live="polite" style="font-size:12px;color:#506579;margin:12px 0"></div><div class="cards"><section class="card"><div>Portfolio value</div><div class="number" id="total"></div></section><section class="card"><div>FXAIX allocation</div><div class="number" id="allocation"></div><div class="bar"><div id="bar"></div></div><p id="gap"></p></section></div><div class="summary"><div><strong>Building toward $185,000</strong></div><div style="min-width:210px"><span id="goaltext" class="progress-chip" role="button" tabindex="0" title="Open goal tracker" onclick="openGoals()"></span><div id="goalbar"><div id="goalfill"></div></div></div></div><div class="grid"><section class="card"><h2>Purchase planner</h2><label>Budget $ <input id="budget" type="number" value="500" min="0" oninput="render()"></label><p><label>Strategy <select id="strategy" onchange="render()"><option value="core">FXAIX first</option><option value="split">90/10 split</option><option value="stock">Selected stock only</option></select></label></p><p><label>Stock <select id="selected" onchange="render()"></select></label></p><div id="plan"></div><button onclick="record()">Record simulated purchase</button><p class="small">No brokerage orders are placed. Prices are manually maintained.</p></section><section class="card"><h2>Priority stock buckets</h2><div id="priorities"></div></section></div><section class="card"><div class="section-intro"><h2>Holdings &amp; Performance:</h2><span>Unrealized P/L based on entered prices</span></div><div class="scroll" id="holdingsScroll"><table id="holdingsTable"><thead><tr><th>Ticker</th><th>Current value $</th><th>Shares</th><th>Avg cost $</th><th>Last Price $</th><th>Portfolio weight %</th><th>Buy plan</th></tr></thead><tbody id="holdings"></tbody></table></div><p><input id="newTicker" placeholder="New ticker"><button onclick="add()">Add stock</button></p></section><section class="card"><h2>Future stock / IPO research list</h2><p class="small">ECHO is a research placeholder, not a verified ticker or recommendation.</p><input id="watchName" placeholder="Company or ticker"><input id="watchNote" placeholder="Research note"><button onclick="addWatch()">Add candidate</button><div class="scroll"><table><thead><tr><th>Candidate</th><th>Note</th><th>Decision</th><th></th></tr></thead><tbody id="watch"></tbody></table></div></section><section class="card"><button onclick="backup()">Export JSON backup</button> <label>Import backup <input type="file" accept=".json" onchange="restore(event)"></label><p class="small">Data saves to this browser's local storage, not across devices. Export backups before clearing browser data. No login or private access yet.</p></section></main>
 <dialog id="goalDialog" style="width:min(1100px,94vw);max-height:85vh;border:1px solid #d8e2ec;border-radius:18px;padding:24px;color:#24354c">
