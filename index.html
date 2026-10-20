@@ -131,20 +131,19 @@ async function refreshDashboardAndSite(){
   show("Checking published dashboard version…");
   let versionCheckError=null;
   try{
-   const response=await fetch("./version.json?at="+Date.now(),{cache:"no-store"});
-   if(!response.ok)throw Error("HTTP "+response.status);
-   const version=await response.json();
-   if(!version||typeof version.build!=="string")throw Error("Invalid version manifest");
+   // Fetch the actual published HTML, not a manifest that can lag behind deployment.
+   const response=await fetch("./?dashboard_check="+Date.now(),{cache:"no-store"});
+   if(!response.ok)throw Error("HTML HTTP "+response.status);
+   const html=await response.text();
+   const publishedBuild=html.match(/<meta\\s+name=["']dashboard-build["']\\s+content=["']([^"']+)["']/i)?.[1];
+   if(!publishedBuild)throw Error("Published HTML has no build marker");
    const current=document.querySelector('meta[name="dashboard-build"]')?.content;
-   if(current!==version.build){
-    const key="mikey-reload-attempt:"+version.build;
-    if(sessionStorage.getItem(key)!=="1"){
-     sessionStorage.setItem(key,"1");
-     show("New dashboard version available. Reloading…");
-     location.reload();
-     return;
-    }
-    versionCheckError="New version published, but browser is still showing an older build";
+   if(current!==publishedBuild){
+    show("New dashboard version available. Loading latest dashboard…");
+    const url=new URL(location.href);
+    url.searchParams.set("dashboard_build",publishedBuild);
+    location.replace(url.href);
+    return;
    }
   }catch(e){versionCheckError="Dashboard version check failed: "+e.message}
   show("Checking market prices…");
