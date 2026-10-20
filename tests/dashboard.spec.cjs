@@ -102,3 +102,17 @@ test('refresh detects changed published HTML and reloads with cache-busting URL'
  await expect(page).toHaveURL(/dashboard_build=new-layout-2026/);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')).holdings[0].shares)).toBe(2);
 });
+
+test('holdings columns never overlap and shares/cost are plain text',async({page})=>{
+ await page.setViewportSize({width:1290,height:900});
+ await page.goto(url);
+ await expect(page.locator('#holdingsTable tbody tr')).toHaveCount(30);
+ await expect(page.locator('#holdingsTable tbody input')).toHaveCount(0);
+ await expect(page.locator('#holdingsTable tbody tr').first().locator('td').first()).toContainText('Fidelity 500 Index Fund');
+ const measurements=await page.locator('#holdingsTable tbody tr').first().locator('td').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width}}));
+ expect(measurements).toHaveLength(11);
+ for(let i=1;i<measurements.length;i++)expect(measurements[i].left).toBeGreaterThanOrEqual(measurements[i-1].right-1);
+ const first=await page.locator('#holdingsTable tbody tr').first().locator('td').first().evaluate(n=>{const name=n.querySelector('.stock-name').getBoundingClientRect(),ticker=n.querySelector('b').getBoundingClientRect();return {below:name.top>=ticker.bottom-1,right:name.right<=n.getBoundingClientRect().right+1}});
+ expect(first.below).toBe(true);
+ expect(first.right).toBe(true);
+});
