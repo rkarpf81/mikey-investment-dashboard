@@ -78,3 +78,16 @@ test('no duplicate refresh requests on repeated clicks',async({page})=>{
  await expect(page.locator('#refreshBtn')).toBeEnabled();
  expect(calls).toBe(1);
 });
+
+test('goal banner is compact and obsolete subtitle is removed',async({page})=>{
+ await page.setViewportSize({width:1360,height:900});
+ await page.goto(url);
+ const banner=page.locator('.summary');
+ await expect(banner).toContainText('Building toward $185,000');
+ await expect(banner).not.toContainText('Based on manually entered holdings');
+ await expect(banner).not.toContainText('Long-term goal by age 18');
+ const height=await banner.evaluate(el=>el.getBoundingClientRect().height);
+ expect(height).toBeLessThan(65);
+ await expect(page.locator('#goaltext')).toBeVisible();
+ await expect(page.locator('#goalbar')).toBeVisible();
+});
