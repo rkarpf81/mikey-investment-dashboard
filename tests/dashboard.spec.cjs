@@ -23,3 +23,20 @@ test('desktop cards, holdings, and saved user data survive reload',async({page})
  expect(stored.holdings[0].cost).toBe(250);
  expect(stored.watch[0].note).toBe('Retain this');
 });
+
+test('refresh applies published quotes without changing shares or cost',async({page})=>{
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/quotes.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{FXAIX:{price:320,previousClose:315,asOf:new Date().toISOString()}}})}));
+ await page.addInitScript(()=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify({
+  holdings:[{ticker:'FXAIX',shares:2.5,cost:250,price:300,value:750,target:0,priority:'Now'}],
+  watch:[{name:'Example',note:'Preserved',decision:'Research'}]
+ })));
+ await page.goto(url);
+ await page.locator('#refreshBtn').click();
+ await expect(page.locator('#total')).toContainText('$800.00');
+ const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
+ expect(stored.holdings[0].shares).toBe(2.5);
+ expect(stored.holdings[0].cost).toBe(250);
+ expect(stored.holdings[0].priority).toBe('Now');
+ expect(stored.watch[0].note).toBe('Preserved');
+});
