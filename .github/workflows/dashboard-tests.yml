@@ -4,7 +4,7 @@ on:
     branches: [main, staging/refresh-rebuild-20261020, staging/visual-release-gates-20261020]
   pull_request:
 permissions:
-  contents: read
+  contents: write
 jobs:
   browser:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
           retention-days: 30
 
   baseline-candidates:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging/visual-release-gates-20261020'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +39,12 @@ jobs:
       - run: python3 -m http.server 8765 --bind 127.0.0.1 &
       - name: Generate unapproved candidates
         run: npx playwright test tests/release-visual.spec.cjs --update-snapshots --reporter=line
+      - name: Commit reviewed snapshot candidates to staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/*-snapshots/*.png
+          git diff --cached --quiet || (git commit -m "Add visual reference images [skip ci]" && git push)
       - name: Upload review images
         if: always()
         uses: actions/upload-artifact@v4
