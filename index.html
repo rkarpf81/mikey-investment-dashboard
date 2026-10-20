@@ -77,8 +77,6 @@ async function refreshMarketQuotes(){
   if(status)status.textContent="Price refresh unavailable: "+e.message+". Existing prices preserved; NOT verified live.";
  }finally{const b=document.getElementById("refreshBtn");if(b)b.disabled=false;}
 }
-
-}
 if(new URL(location.href).searchParams.has("dashboard_refresh")){
  window.addEventListener("load",()=>{
   const clean=new URL(location.href);
