@@ -1,0 +1,1084 @@
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  color: #24354c;
+  background: #f5f7fb;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f5f7fb;
+  color: #24354c;
+}
+main {
+  max-width: 1320px;
+  margin: auto;
+  padding: 44px 36px 80px;
+}
+h1 {
+  font-size: clamp(30px, 3vw, 43px);
+  letter-spacing: -1.8px;
+  color: #13243c;
+  margin: 0 0 7px;
+  font-weight: 850;
+}
+h2 {
+  font-size: 18px;
+  letter-spacing: -0.4px;
+  margin: 0 0 17px;
+  color: #1d3048;
+}
+p {
+  color: #748399;
+  line-height: 1.5;
+}
+main > p:first-of-type {
+  margin: 0 0 28px;
+  font-size: 13px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.card {
+  background: white;
+  border: 1px solid #e6ebf2;
+  border-radius: 19px;
+  padding: 24px;
+  margin: 14px 0;
+  box-shadow: 0 7px 26px #1a355008;
+  min-width: 0;
+}
+.cards .card {
+  margin: 0;
+  min-height: 152px;
+}
+.cards .card > div:first-child {
+  color: #8290a5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.number {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  color: #162b47;
+  margin-top: 16px;
+  letter-spacing: -1.2px;
+  font-variant-numeric: tabular-nums;
+}
+.bar {
+  height: 9px;
+  background: #e9edf4;
+  border-radius: 50px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+.bar > div {
+  height: 100%;
+  background: #1a9b90;
+  border-radius: 50px;
+}
+.small {
+  font-size: 12px;
+  color: #8b98a8;
+}
+#gap {
+  font-size: 12px;
+  margin: 9px 0 0;
+}
+input,
+select,
+button {
+  font: inherit;
+  border: 1px solid #dce4ed;
+  border-radius: 9px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #24354c;
+  max-width: 100%;
+}
+input:focus,
+select:focus {
+  outline: 2px solid #73b7af;
+}
+button {
+  background: #183b60;
+  color: #fff;
+  border-color: #183b60;
+  cursor: pointer;
+  font-weight: 700;
+}
+button:hover {
+  background: #27537d;
+}
+label {
+  font-size: 13px;
+  color: #53657b;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  white-space: nowrap;
+}
+th,
+td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #e9edf2;
+}
+th {
+  color: #75869b;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 10px;
+  background: #f8fafd;
+}
+td b {
+  color: #203e61;
+}
+tbody tr:hover {
+  background: #f7fafd;
+}
+td input {
+  width: 86px;
+  font-size: 12px;
+  padding: 7px;
+}
+td select {
+  font-size: 12px;
+  padding: 7px;
+}
+.scroll {
+  overflow: auto;
+  border: 1px solid #edf0f5;
+  border-radius: 12px;
+}
+.grid .card {
+  margin: 16px 0;
+}
+#plan {
+  background: #f5faf9;
+  border: 1px solid #dceeea;
+  border-radius: 12px;
+  padding: 5px 14px;
+  margin: 15px 0;
+}
+#priorities p {
+  border-bottom: 1px solid #e9edf2;
+  padding-bottom: 10px;
+}
+#newTicker,
+#watchName,
+#watchNote {
+  margin: 5px 7px 5px 0;
+}
+.positive {
+  color: #16846a !important;
+  font-weight: 750;
+}
+.negative {
+  color: #c54850 !important;
+  font-weight: 750;
+}
+.muted {
+  color: #8d9aaa !important;
+}
+.metric-note {
+  font-size: 11px;
+  color: #98a3b1;
+  margin-top: 7px;
+}
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #138e87;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.section-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.section-intro span {
+  font-size: 12px;
+  color: #8794a5;
+}
+.progress-chip {
+  background: #e9f6f2;
+  border-radius: 30px;
+  padding: 3px 9px;
+  color: #137967;
+  font-size: 11px;
+  font-weight: 700;
+}
+#goalbar {
+  height: 7px;
+  background: #e9edf4;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+#goalbar > div {
+  height: 100%;
+  background: #1a9b90;
+}
+.summary {
+  margin: 12px 0 14px;
+  padding: 10px 25px;
+  background: linear-gradient(115deg, #173d5d, #1b5664);
+  border-radius: 19px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.summary strong {
+  font-size: 18px;
+}
+.summary p {
+  color: #c9dce7;
+  margin: 5px 0 0;
+  font-size: 12px;
+}
+.summary .progress-chip {
+  background: #d7f1e9;
+}
+@media (max-width: 950px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  main {
+    padding: 30px 18px;
+  }
+}
+@media (max-width: 620px) {
+  .cards,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 18px;
+  }
+  .summary {
+    display: block;
+  }
+  .number {
+    font-size: 34px;
+  }
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.topbar .eyebrow {
+  margin-bottom: 0;
+}
+.refresh-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.refresh-area button {
+  padding: 10px 17px;
+  background: #167f76;
+  border-color: #167f76;
+}
+.refresh-area span {
+  font-size: 11px;
+  color: #78879a;
+}
+@media (max-width: 620px) {
+  .topbar {
+    align-items: flex-start;
+  }
+  .refresh-area {
+    width: 100%;
+  }
+}
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #f5f7fb;
+  padding: 14px 0 16px;
+  margin-top: -14px;
+  border-bottom: 1px solid #dfe5ed;
+  box-shadow: 0 5px 14px rgba(19, 36, 60, 0.045);
+}
+.sticky-header h1 {
+  font-size: clamp(22px, 2.7vw, 38px);
+  margin: 0;
+}
+.sticky-header .topbar {
+  margin-bottom: 8px;
+}
+.refresh-area {
+  margin-left: auto;
+}
+.refresh-area button {
+  background: #087f79 !important;
+  color: white !important;
+  font-weight: 750;
+  white-space: nowrap;
+  box-shadow: 0 3px 8px rgba(8, 127, 121, 0.15);
+}
+@media (max-width: 680px) {
+  main {
+    padding: 16px 14px 50px;
+  }
+  .sticky-header {
+    padding: 10px 0;
+  }
+  .sticky-header h1 {
+    font-size: 23px;
+    letter-spacing: -0.8px;
+  }
+  .refresh-area span {
+    display: none;
+  }
+}
+.sticky-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 99999 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px max(24px, calc((100vw - 1248px) / 2)) 14px !important;
+  background: #f5f7fb !important;
+  border-bottom: 1px solid #d9e3eb !important;
+  box-shadow: 0 4px 18px rgba(20, 35, 55, 0.12) !important;
+}
+.sticky-header .topbar {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+.sticky-header .refresh-area {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+}
+.sticky-header #refreshBtn {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #087f79 !important;
+  color: white !important;
+  border: 0 !important;
+  padding: 11px 18px !important;
+  border-radius: 9px !important;
+  cursor: pointer !important;
+}
+.sticky-header h1 {
+  font-size: clamp(22px, 2.5vw, 34px) !important;
+  margin: 5px 0 0 !important;
+}
+main {
+  padding-top: 175px !important;
+}
+@media (max-width: 680px) {
+  .sticky-header {
+    padding: 10px 14px !important;
+  }
+  .sticky-header h1 {
+    font-size: 21px !important;
+  }
+  main {
+    padding-top: 165px !important;
+  }
+}
+#persistentRefresh {
+  position: fixed !important;
+  right: 18px !important;
+  top: 12px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  background: #fff;
+  padding: 7px 10px;
+  border: 1px solid #cddbe4;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+}
+#persistentRefresh button {
+  background: #087f79 !important;
+  color: white !important;
+  border: 0 !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  font-weight: 800;
+  cursor: pointer;
+}
+#persistentRefresh span {
+  font-size: 11px;
+  color: #596d7e;
+}
+@media (max-width: 850px) {
+  #persistentRefresh span {
+    display: none;
+  }
+}
+.sticky-header .refresh-area {
+  visibility: visible !important;
+}
+.sticky-header {
+  padding-right: 24px !important;
+}
+@media (max-width: 680px) {
+  .sticky-header {
+    padding-right: 14px !important;
+  }
+}
+.market-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #53677d;
+  flex-wrap: wrap;
+}
+.market-status strong {
+  font-size: 13px;
+}
+.market-status .market-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #8b98a8;
+  display: inline-block;
+}
+.market-status.is-open .market-dot {
+  background: #138c65;
+}
+.market-status.is-closed .market-dot {
+  background: #d19a25;
+}
+.market-hours {
+  color: #7c8999;
+  font-size: 11px;
+}
+.market-value {
+  display: inline-block;
+  padding: 9px 3px;
+  font-weight: 700;
+  color: #163d5b;
+  white-space: nowrap;
+}
+#marketRefreshStatus {
+  position: relative;
+  font-weight: 650;
+  background: #eaf0f5;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+#persistentRefresh button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Compact five-metric overview: one row on desktop, responsive on narrow screens. */
+.cards {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+.cards .card {
+  min-height: 128px;
+  padding: 16px 14px;
+  margin: 0;
+  border-radius: 14px;
+}
+.cards .card > div:first-child {
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.cards .number {
+  font-size: clamp(18px, 1.75vw, 28px);
+  letter-spacing: -0.7px;
+  margin-top: 12px;
+  white-space: nowrap;
+}
+.cards .metric-note,
+.cards #gap {
+  font-size: 10px;
+  line-height: 1.35;
+}
+.cards .bar {
+  margin-top: 10px;
+}
+@media (max-width: 1050px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cards .number {
+    font-size: clamp(19px, 5vw, 27px);
+  }
+}
+@media (max-width: 390px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Distinct, consistent borders for all five portfolio summary cards. */
+.cards > .card {
+  border: 2px solid #7189a8 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 7px rgba(32, 56, 86, 0.12) !important;
+}
+/* Five compact portfolio metric cards, one row at desktop widths. */
+@media (min-width: 900px) {
+  .cards {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .cards > .card {
+    min-width: 0 !important;
+    min-height: 116px !important;
+    padding: 13px 12px !important;
+    margin: 0 !important;
+    border: 2px solid #7189a8 !important;
+    border-radius: 12px !important;
+  }
+  .cards > .card .number {
+    font-size: clamp(17px, 1.55vw, 25px) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.5px !important;
+    margin-top: 10px !important;
+    white-space: nowrap !important;
+  }
+  .cards > .card > div:first-child {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+  .cards > .card .metric-note,
+  .cards > .card #gap {
+    font-size: 9px !important;
+    line-height: 1.3 !important;
+    margin-top: 7px !important;
+  }
+  .cards > .card .bar {
+    margin-top: 9px !important;
+  }
+}
+.stock-name {
+  font-size: 11px;
+  color: #66788e;
+  font-weight: 400;
+  white-space: normal;
+  display: inline;
+  margin-left: 5px;
+}
+
+/* Holdings: readable columns, no overlapping names or input-looking values. */
+#holdingsTable {
+  table-layout: fixed;
+  min-width: 1190px;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+#holdingsTable th,
+#holdingsTable td {
+  padding: 12px 7px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#holdingsTable th:first-child,
+#holdingsTable td:first-child {
+  width: 210px;
+  text-align: left;
+}
+#holdingsTable th:nth-child(2),
+#holdingsTable td:nth-child(2) {
+  width: 90px;
+}
+#holdingsTable th:nth-child(3),
+#holdingsTable td:nth-child(3) {
+  width: 70px;
+}
+#holdingsTable th:nth-child(4),
+#holdingsTable td:nth-child(4) {
+  width: 91px;
+}
+#holdingsTable th:nth-child(5),
+#holdingsTable td:nth-child(5) {
+  width: 94px;
+}
+#holdingsTable th:nth-child(6),
+#holdingsTable td:nth-child(6) {
+  width: 88px;
+}
+#holdingsTable th:nth-child(7),
+#holdingsTable td:nth-child(7) {
+  width: 79px;
+}
+#holdingsTable th:nth-child(8),
+#holdingsTable td:nth-child(8) {
+  width: 96px;
+}
+#holdingsTable th:nth-child(9),
+#holdingsTable td:nth-child(9) {
+  width: 109px;
+}
+#holdingsTable th:nth-child(10),
+#holdingsTable td:nth-child(10) {
+  width: 93px;
+}
+#holdingsTable th:nth-child(11),
+#holdingsTable td:nth-child(11) {
+  width: 73px;
+}
+#holdingsTable .stock-name {
+  display: block;
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: #66788e;
+}
+#holdingsTable td .market-value {
+  display: inline;
+  padding: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+#holdingsTable td:nth-child(3) .market-value,
+#holdingsTable td:nth-child(4) .market-value {
+  font-weight: 400;
+  color: #24354c;
+}
+#holdingsTable td select {
+  padding: 6px 4px;
+  width: 70px;
+}
+
+/* Unified professional holdings table: consistent typography and clean numeric cells. */
+#holdingsTable thead th {
+  background: #e7edf5 !important;
+  color: #183451 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.45px !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #a7b8ca !important;
+  padding: 15px 8px !important;
+}
+#holdingsTable tbody td {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #24354c !important;
+  padding: 15px 8px !important;
+  line-height: 1.4 !important;
+}
+#holdingsTable tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+#holdingsTable tbody tr:hover {
+  background: #edf4f9;
+}
+#holdingsTable tbody td b {
+  font-size: 12px;
+  font-weight: 750;
+  color: #163754;
+}
+#holdingsTable .stock-name {
+  font-size: 11px;
+  line-height: 1.35;
+  color: #718197;
+  font-weight: 400;
+}
+#holdingsTable tbody td .market-value {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #24354c !important;
+  padding: 0 !important;
+}
+#holdingsTable tbody td:nth-child(2),
+#holdingsTable tbody td:nth-child(5) {
+  font-weight: 650 !important;
+}
+#holdingsTable tbody td.positive {
+  color: #137d60 !important;
+  font-weight: 700 !important;
+}
+#holdingsTable tbody td.negative {
+  color: #c13f4c !important;
+  font-weight: 700 !important;
+}
+#holdingsTable tbody td.muted {
+  color: #8c9bad !important;
+  font-weight: 500 !important;
+}
+#holdingsTable tbody td select {
+  background: #f4f7fb !important;
+  border: 1px solid #d6e0ea !important;
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  font-size: 11px !important;
+  padding: 5px 4px !important;
+}
+#holdingsTable th:not(:first-child),
+#holdingsTable td:not(:first-child) {
+  text-align: right !important;
+}
+#holdingsTable td:nth-child(7),
+#holdingsTable th:nth-child(7) {
+  text-align: center !important;
+}
+
+/* Holdings table design system: visual hierarchy and predictable cell formatting. */
+#holdingsTable {
+  table-layout: fixed;
+  min-width: 1190px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#holdingsTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #dce7f2 !important;
+  color: #17324e !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.4px !important;
+  border-bottom: 2px solid #9fb5ca !important;
+  padding: 14px 8px !important;
+}
+#holdingsTable tbody td {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #273b52 !important;
+  vertical-align: middle !important;
+  padding: 14px 8px !important;
+  border-bottom: 1px solid #e4eaf1 !important;
+}
+#holdingsTable tbody td:nth-child(1) {
+  text-align: left !important;
+}
+#holdingsTable tbody td:nth-child(1) b {
+  display: block;
+  font-weight: 750 !important;
+  color: #173b60 !important;
+}
+#holdingsTable tbody td:nth-child(1) .stock-name {
+  display: block;
+  margin: 3px 0 0 !important;
+  font-weight: 400 !important;
+  color: #718197 !important;
+  line-height: 1.25;
+}
+#holdingsTable tbody td .market-value {
+  display: inline !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-weight: 500 !important;
+  color: inherit !important;
+  font-size: 12px !important;
+}
+#holdingsTable tbody td:nth-child(2) .market-value,
+#holdingsTable tbody td:nth-child(5) .market-value {
+  font-weight: 650 !important;
+}
+#holdingsTable tbody td.positive {
+  color: #117a5b !important;
+  font-weight: 700 !important;
+}
+#holdingsTable tbody td.negative {
+  color: #bd4050 !important;
+  font-weight: 700 !important;
+}
+#holdingsTable tbody td.muted {
+  color: #8b9bae !important;
+  font-weight: 500 !important;
+}
+#holdingsTable tbody td:nth-child(7) select {
+  font-size: 11px !important;
+  background: #f4f7fa !important;
+  border: 1px solid #d9e2ed !important;
+  padding: 5px 4px !important;
+  width: 70px;
+}
+#holdingsTable th:not(:first-child),
+#holdingsTable td:not(:first-child) {
+  text-align: right !important;
+}
+#holdingsTable th:nth-child(7),
+#holdingsTable td:nth-child(7) {
+  text-align: center !important;
+}
+#holdingsTable tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+#holdingsTable tbody tr:hover {
+  background: #edf4f9;
+}
+
+#holdingsTable th:nth-child(2),
+#holdingsTable td:nth-child(2) {
+  width: 100px;
+}
+#holdingsTable th:nth-child(3),
+#holdingsTable td:nth-child(3) {
+  width: 92px;
+}
+#holdingsTable th:nth-child(4),
+#holdingsTable td:nth-child(4) {
+  width: 108px;
+}
+#holdingsTable th:nth-child(5),
+#holdingsTable td:nth-child(5) {
+  width: 90px;
+}
+#holdingsTable th:nth-child(6),
+#holdingsTable td:nth-child(6) {
+  width: 100px;
+}
+#holdingsTable th:nth-child(7),
+#holdingsTable td:nth-child(7) {
+  width: 74px;
+}
+#holdingsTable th:nth-child(8),
+#holdingsTable td:nth-child(8) {
+  width: 95px;
+}
+#holdingsTable th:nth-child(9),
+#holdingsTable td:nth-child(9) {
+  width: 95px;
+}
+#holdingsTable th:nth-child(10),
+#holdingsTable td:nth-child(10) {
+  width: 88px;
+}
+#holdingsTable th:nth-child(11),
+#holdingsTable td:nth-child(11) {
+  width: 88px;
+}
+
+/* Holdings headers stay with the page scroll, below the fixed dashboard title bar. */
+.holdings-scroll {
+  max-height: none;
+  overflow: visible;
+  border: 1px solid #edf0f5;
+  border-radius: 12px;
+}
+#holdingsTable {
+  width: 100% !important;
+  min-width: 0 !important;
+  table-layout: fixed !important;
+}
+#holdingsTable thead {
+  position: static !important;
+}
+#holdingsTable thead th {
+  position: sticky !important;
+  top: var(--dashboard-header-height, 130px) !important;
+  z-index: 99990 !important;
+  background: #dce7f2 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  line-height: 1.2 !important;
+  padding: 8px 4px !important;
+  font-size: 10px !important;
+}
+#holdingsTable th,
+#holdingsTable td {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+#holdingsTable th:nth-child(1),
+#holdingsTable td:nth-child(1) {
+  width: 13% !important;
+}
+#holdingsTable th:nth-child(2),
+#holdingsTable td:nth-child(2) {
+  width: 9% !important;
+}
+#holdingsTable th:nth-child(3),
+#holdingsTable td:nth-child(3) {
+  width: 9% !important;
+}
+#holdingsTable th:nth-child(4),
+#holdingsTable td:nth-child(4) {
+  width: 10% !important;
+}
+#holdingsTable th:nth-child(5),
+#holdingsTable td:nth-child(5) {
+  width: 8% !important;
+}
+#holdingsTable th:nth-child(6),
+#holdingsTable td:nth-child(6) {
+  width: 9% !important;
+}
+#holdingsTable th:nth-child(7),
+#holdingsTable td:nth-child(7) {
+  width: 7% !important;
+}
+#holdingsTable th:nth-child(8),
+#holdingsTable td:nth-child(8) {
+  width: 9% !important;
+}
+#holdingsTable th:nth-child(9),
+#holdingsTable td:nth-child(9) {
+  width: 9% !important;
+}
+#holdingsTable th:nth-child(10),
+#holdingsTable td:nth-child(10) {
+  width: 8% !important;
+}
+#holdingsTable th:nth-child(11),
+#holdingsTable td:nth-child(11) {
+  width: 9% !important;
+}
+#holdingsTable td select {
+  width: 100% !important;
+  min-width: 0;
+  max-width: 100%;
+}
+@media (max-width: 760px) {
+  #holdingsTable thead th {
+    top: var(--dashboard-header-height, 114px) !important;
+    font-size: 9px !important;
+    padding: 7px 2px !important;
+  }
+  #holdingsTable tbody td {
+    font-size: 9px !important;
+    padding: 8px 2px !important;
+  }
+  #holdingsTable .stock-name {
+    font-size: 9px !important;
+    overflow-wrap: anywhere;
+  }
+  #holdingsTable td select {
+    font-size: 9px !important;
+    padding: 3px 1px !important;
+  }
+}
+#holdingsTable thead th {
+  font-size: 10.5px !important;
+}
+/* Keep every holdings label on one line with consistent compact wording. */
+#holdingsTable thead th {
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  text-overflow: clip !important;
+  font-size: 10px !important;
+  letter-spacing: 0.2px !important;
+  text-align: center !important;
+}
+#holdingsTable thead th:first-child {
+  text-align: left !important;
+}
+
+/* Fidelity CSV import and confirmed holding removal controls. */
+#portfolioStatus {
+  margin: 10px 0 4px;
+  color: #42566d;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.holding-import {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0 6px;
+}
+.holding-import label {
+  font-weight: 650;
+}
+.holding-import input[type="file"] {
+  font-size: 12px;
+  max-width: 100%;
+}
+.remove-holding {
+  display: block;
+  margin: 4px auto 0;
+  padding: 2px 7px;
+  border: 1px solid #d8a4a8;
+  background: #fff7f7;
+  color: #a12e38;
+  font-size: 15px;
+  line-height: 1.1;
+  border-radius: 6px;
+}
+.remove-holding:hover {
+  background: #ffe9eb;
+}
+#holdingsTable tbody td:nth-child(11) {
+  text-align: center !important;
+}
+#holdingsTable tbody td:nth-child(11) select {
+  display: block;
+  margin: auto;
+}
+
+/* Keep all holdings labels readable on phones with an in-table horizontal scroll. */
+@media (max-width: 760px) {
+  .holdings-scroll {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+  #holdingsTable {
+    width: 1190px !important;
+    min-width: 1190px !important;
+    table-layout: fixed !important;
+  }
+  #holdingsTable thead th {
+    font-size: 10px !important;
+    padding: 8px 5px !important;
+  }
+  #holdingsScroll::after {
+    content: "Swipe sideways to see all columns";
+    display: block;
+    padding: 7px 10px;
+    color: #718197;
+    font-size: 11px;
+  }
+}

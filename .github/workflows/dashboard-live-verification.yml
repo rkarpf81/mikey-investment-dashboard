@@ -2,21 +2,22 @@ name: Verify published GitHub Pages dashboard
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 15 * * 1-5'
-  push:
-    branches: [main]
-  pull_request:
+    - cron: "15 15 * * 1-5"
+  workflow_run:
+    workflows: [Publish dashboard version]
+    types: [completed]
     branches: [main]
 permissions:
   contents: read
 jobs:
   published-site:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
       - run: npm install --no-save @playwright/test
       - run: npx playwright install --with-deps chromium
       - name: Wait for published manifest to match repository
@@ -41,7 +42,7 @@ jobs:
       - name: Test real published dashboard and Refresh button
         env:
           DASHBOARD_URL: https://rkarpf81.github.io/mikey-investment-dashboard/
-          LIVE_DEPLOYMENT: 'true'
+          LIVE_DEPLOYMENT: "true"
         run: npx playwright test tests/release-visual.spec.cjs --reporter=line
       - name: Preserve real-site screenshots
         if: always()
