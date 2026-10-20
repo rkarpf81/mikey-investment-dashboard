@@ -221,7 +221,7 @@ async function refreshDashboardAndSite(){
    const q=await loadPublishedQuotes();
    const stale=Date.now()-Date.parse(q.updatedAt)>36*60*60*1000;
    show((versionCheckError?versionCheckError+"; ":"")+
-     "Prices updated for "+q.changed+" of "+q.total+" holdings from "+new Date(q.updatedAt).toLocaleString()+
+     "Prices refreshed at "+new Date(q.updatedAt).toLocaleString()+
      (stale?" (snapshot may be stale)":""));
   }catch(e){show((versionCheckError?versionCheckError+"; ":"")+"Market prices unavailable: "+e.message+". Saved investments unchanged.")}
  }finally{refreshInProgress=false;if(button)button.disabled=false}
