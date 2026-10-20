@@ -1,7 +1,7 @@
 name: Dashboard browser checks
 on:
   push:
-    branches: [main, staging/refresh-rebuild-20261020]
+    branches: [main, staging/refresh-rebuild-20261020, staging/visual-release-gates-20261020]
   pull_request:
 permissions:
   contents: read
