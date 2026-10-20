@@ -17,6 +17,20 @@ test('desktop cards, holdings, and saved user data survive reload',async({page})
  await expect(page.locator('#refreshBtn')).toHaveCount(1);
  const grid=await page.locator('.cards').evaluate(el=>getComputedStyle(el).gridTemplateColumns.split(' ').length);
  expect(grid).toBe(5);
+ const cards=page.locator('.cards > .card');
+ await expect(cards).toHaveCount(5);
+ const styles=await cards.evaluateAll(nodes=>nodes.map(node=>{
+  const cs=getComputedStyle(node),r=node.getBoundingClientRect();
+  return {width:cs.borderTopWidth,color:cs.borderTopColor,style:cs.borderTopStyle,x:r.x,y:r.y,height:r.height};
+ }));
+ for(const card of styles){
+  expect(card.width).toBe('2px');
+  expect(card.color).toBe('rgb(113, 137, 168)');
+  expect(card.style).toBe('solid');
+ }
+ expect(Math.max(...styles.map(c=>c.y))-Math.min(...styles.map(c=>c.y))).toBeLessThan(2);
+ expect(styles.every(c=>c.height>100)).toBe(true);
+
  await page.reload();
  await expect(page.locator('#holdings tr')).toHaveCount(2);
  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
