@@ -40,3 +40,24 @@ test('refresh applies published quotes without changing shares or cost',async({p
  expect(stored.holdings[0].priority).toBe('Now');
  expect(stored.watch[0].note).toBe('Preserved');
 });
+
+test('quote failure preserves all browser records',async({page})=>{
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/quotes.json?*',route=>route.fulfill({status:503,body:'unavailable'}));
+ const original={holdings:[{ticker:'FXAIX',shares:3,cost:200,price:250,value:750,priority:'Now'}],watch:[]};
+ await page.addInitScript(v=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify(v)),original);
+ await page.goto(url);
+ await page.locator('#refreshBtn').click();
+ await expect(page.locator('#refreshStatus')).toContainText('Market prices unavailable');
+ const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
+ expect(stored).toEqual(original);
+});
+test('no duplicate refresh requests on repeated clicks',async({page})=>{
+ let calls=0;
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/quotes.json?*',async route=>{calls++;await new Promise(r=>setTimeout(r,150));await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{}})});});
+ await page.goto(url);
+ await page.locator('#refreshBtn').evaluate(el=>{el.click();el.click()});
+ await expect(page.locator('#refreshBtn')).toBeEnabled();
+ expect(calls).toBe(1);
+});
