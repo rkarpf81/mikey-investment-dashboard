@@ -144,3 +144,16 @@ test('goal tracker assumptions, checkpoints, and stock targets persist without r
  expect(saved.holdings.length).toBe(before.holdings.length);
  expect(saved.watch).toEqual(before.watch);
 });
+
+test('holdings headings stay below the fixed title during page scroll and show full labels',async({page})=>{
+ await page.setViewportSize({width:1360,height:900});
+ await page.goto(url);
+ const firstHeader=page.locator('#holdingsTable thead th').first();
+ const start=await page.locator('#holdingsTable').evaluate(el=>el.getBoundingClientRect().top+window.scrollY);
+ await page.evaluate(y=>window.scrollTo(0,y+300),start);
+ await expect.poll(()=>firstHeader.evaluate(el=>Math.round(el.getBoundingClientRect().top))).toBe(100);
+ const headers=await page.locator('#holdingsTable thead th').allTextContents();
+ expect(headers).toEqual(['Ticker','Current value $','Today P/L $','Unrealized P/L $','Total return %','Cost basis $','Shares','Avg cost $','Last Price $','Portfolio weight %','Buy plan']);
+ const ellipsized=await page.locator('#holdingsTable thead th').evaluateAll(nodes=>nodes.some(el=>getComputedStyle(el).textOverflow==='ellipsis'));
+ expect(ellipsized).toBe(false);
+});
