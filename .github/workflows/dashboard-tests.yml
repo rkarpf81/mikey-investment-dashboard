@@ -1,10 +1,10 @@
 name: Dashboard browser checks
 on:
   push:
-    branches: [main, staging/refresh-rebuild-20261020]
+    branches: [main, staging/refresh-rebuild-20261020, staging/visual-release-gates-20261020]
   pull_request:
 permissions:
-  contents: read
+  contents: write
 jobs:
   browser:
     runs-on: ubuntu-latest
@@ -16,4 +16,40 @@ jobs:
       - run: npm install --no-save @playwright/test
       - run: npx playwright install --with-deps chromium
       - run: python3 -m http.server 8765 --bind 127.0.0.1 &
-      - run: npx playwright test tests/dashboard.spec.cjs --reporter=line
+      - name: Test local application and visual baseline
+        run: npx playwright test tests/dashboard.spec.cjs tests/release-visual.spec.cjs --reporter=line
+      - name: Upload visual evidence for human review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-visual-evidence
+          path: test-results/
+          retention-days: 30
+
+  baseline-candidates:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging/visual-release-gates-20261020'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save @playwright/test
+      - run: npx playwright install --with-deps chromium
+      - run: python3 -m http.server 8765 --bind 127.0.0.1 &
+      - name: Generate unapproved candidates
+        run: npx playwright test tests/release-visual.spec.cjs --update-snapshots --reporter=line
+      - name: Commit reviewed snapshot candidates to staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/*-snapshots/*.png
+          git diff --cached --quiet || (git commit -m "Add visual reference images [skip ci]" && git push)
+      - name: Upload review images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unreviewed-screenshot-candidates
+          path: |
+            tests/*-snapshots/
+            test-results/

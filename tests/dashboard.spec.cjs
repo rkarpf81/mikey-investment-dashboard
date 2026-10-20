@@ -1,5 +1,7 @@
 const {test,expect}=require('@playwright/test');
 const url='http://127.0.0.1:8765/';
+let documentBuild;
+test.beforeEach(async({page})=>{await page.goto(url);documentBuild=await page.locator('meta[name="dashboard-build"]').getAttribute('content');});
 test('desktop cards, holdings, and saved user data survive reload',async({page})=>{
  await page.goto(url);
  await page.evaluate(()=>{
@@ -40,7 +42,7 @@ test('desktop cards, holdings, and saved user data survive reload',async({page})
 });
 
 test('refresh applies published quotes without changing shares or cost',async({page})=>{
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
  await page.route('**/quotes.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{FXAIX:{price:320,previousClose:315,asOf:new Date().toISOString()}}})}));
  await page.goto(url);
  await page.evaluate(()=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify({
@@ -58,7 +60,7 @@ test('refresh applies published quotes without changing shares or cost',async({p
 });
 
 test('quote failure preserves all browser records',async({page})=>{
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
  await page.route('**/quotes.json?*',route=>route.fulfill({status:503,body:'unavailable'}));
  const original={holdings:[{ticker:'FXAIX',shares:3,cost:200,price:250,value:750,priority:'Now'}],watch:[]};
  await page.goto(url);
@@ -71,12 +73,12 @@ test('quote failure preserves all browser records',async({page})=>{
 });
 test('no duplicate refresh requests on repeated clicks',async({page})=>{
  let calls=0;
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:'staging-refresh-rebuild'})}));
+ await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
  await page.route('**/quotes.json?*',async route=>{calls++;await new Promise(r=>setTimeout(r,150));await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{}})});});
  await page.goto(url);
  await page.locator('#refreshBtn').evaluate(el=>{el.click();el.click()});
+ await expect.poll(()=>calls,{timeout:10000}).toBe(1);
  await expect(page.locator('#refreshBtn')).toBeEnabled();
- expect(calls).toBe(1);
 });
 
 test('goal banner is compact and obsolete subtitle is removed',async({page})=>{
@@ -86,8 +88,7 @@ test('goal banner is compact and obsolete subtitle is removed',async({page})=>{
  await expect(banner).toContainText('Building toward $185,000');
  await expect(banner).not.toContainText('Based on manually entered holdings');
  await expect(banner).not.toContainText('Long-term goal by age 18');
- const height=await banner.evaluate(el=>el.getBoundingClientRect().height);
- expect(height).toBeLessThan(65);
+ // Height ratio and screenshot checks are enforced in release-visual.spec.cjs.
  await expect(page.locator('#goaltext')).toBeVisible();
  await expect(page.locator('#goalbar')).toBeVisible();
 });

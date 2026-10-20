@@ -1,0 +1,50 @@
+name: Verify published GitHub Pages dashboard
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 15 * * 1-5'
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  published-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save @playwright/test
+      - run: npx playwright install --with-deps chromium
+      - name: Wait for published manifest to match repository
+        run: |
+          python3 - <<'PY'
+          import json,urllib.request,time,pathlib
+          base='https://rkarpf81.github.io/mikey-investment-dashboard/'
+          for attempt in range(30):
+            try:
+              with urllib.request.urlopen(base+'version.json?check='+str(time.time()),timeout=12) as r:
+                remote=json.load(r)['build']
+              with urllib.request.urlopen('https://api.github.com/repos/rkarpf81/mikey-investment-dashboard/contents/version.json',timeout=12) as r:
+                import base64
+                latest=json.loads(base64.b64decode(json.load(r)['content']))['build']
+              if remote==latest:
+                print('Published build matches repository:',remote)
+                break
+            except Exception as exc: print('Waiting for publication:',str(exc)[:120])
+            time.sleep(10)
+          else: raise SystemExit('Published version does not match repository after 5 minutes')
+          PY
+      - name: Test real published dashboard and Refresh button
+        env:
+          DASHBOARD_URL: https://rkarpf81.github.io/mikey-investment-dashboard/
+          LIVE_DEPLOYMENT: 'true'
+        run: npx playwright test tests/release-visual.spec.cjs --reporter=line
+      - name: Preserve real-site screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-dashboard-screenshots
+          path: test-results/
+          retention-days: 30
