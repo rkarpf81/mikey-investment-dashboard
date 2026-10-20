@@ -42,7 +42,7 @@ test('desktop cards, holdings, and saved user data survive reload',async({page})
 });
 
 test('refresh applies published quotes without changing shares or cost',async({page})=>{
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
+ await page.route('**/?dashboard_check=*',route=>route.fulfill({status:200,contentType:'text/html',body:'<meta name="dashboard-build" content="'+documentBuild+'">'}));
  await page.route('**/quotes.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{FXAIX:{price:320,previousClose:315,asOf:new Date().toISOString()}}})}));
  await page.goto(url);
  await page.evaluate(()=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify({
@@ -60,7 +60,7 @@ test('refresh applies published quotes without changing shares or cost',async({p
 });
 
 test('quote failure preserves all browser records',async({page})=>{
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
+ await page.route('**/?dashboard_check=*',route=>route.fulfill({status:200,contentType:'text/html',body:'<meta name="dashboard-build" content="'+documentBuild+'">'}));
  await page.route('**/quotes.json?*',route=>route.fulfill({status:503,body:'unavailable'}));
  const original={holdings:[{ticker:'FXAIX',shares:3,cost:200,price:250,value:750,priority:'Now'}],watch:[]};
  await page.goto(url);
@@ -73,7 +73,7 @@ test('quote failure preserves all browser records',async({page})=>{
 });
 test('no duplicate refresh requests on repeated clicks',async({page})=>{
  let calls=0;
- await page.route('**/version.json?*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({build:documentBuild})}));
+ await page.route('**/?dashboard_check=*',route=>route.fulfill({status:200,contentType:'text/html',body:'<meta name="dashboard-build" content="'+documentBuild+'">'}));
  await page.route('**/quotes.json?*',async route=>{calls++;await new Promise(r=>setTimeout(r,150));await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({updatedAt:new Date().toISOString(),quotes:{}})});});
  await page.goto(url);
  await page.locator('#refreshBtn').evaluate(el=>{el.click();el.click()});
@@ -91,4 +91,14 @@ test('goal banner is compact and obsolete subtitle is removed',async({page})=>{
  // Height ratio and screenshot checks are enforced in release-visual.spec.cjs.
  await expect(page.locator('#goaltext')).toBeVisible();
  await expect(page.locator('#goalbar')).toBeVisible();
+});
+
+test('refresh detects changed published HTML and reloads with cache-busting URL',async({page})=>{
+ await page.route('**/?dashboard_check=*',route=>route.fulfill({status:200,contentType:'text/html',body:'<meta name="dashboard-build" content="new-layout-2026">'}));
+ await page.goto(url);
+ await page.evaluate(()=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify({holdings:[{ticker:'FXAIX',shares:2,cost:100,price:200,value:400,priority:'Now'}],watch:[]})));
+ await page.reload();
+ await page.locator('#refreshBtn').click();
+ await expect(page).toHaveURL(/dashboard_build=new-layout-2026/);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')).holdings[0].shares)).toBe(2);
 });
