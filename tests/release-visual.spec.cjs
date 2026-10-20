@@ -11,6 +11,7 @@ test('goal banner is ~50% of original and screenshot evidence is captured',async
  await expect(page.locator('#goaltext')).toBeVisible();
  await expect(page.locator('#goalbar')).toBeVisible();
  const current=await banner.evaluate(el=>el.getBoundingClientRect().height);
+ await expect(banner).toHaveScreenshot('goal-banner-approved.png',{animations:'disabled',maxDiffPixelRatio:0.02});
  await testInfo.attach('current-goal-banner-desktop',{body:await banner.screenshot(),contentType:'image/png'});
  // Reconstruct the original banner from the actual pre-change CSS and text.
  // This provides a measured, independent baseline at the same viewport and font.
@@ -38,6 +39,7 @@ test('desktop and mobile screenshots, card geometry, and visible borders',async(
  for(const [label,width] of [['desktop',1360],['mobile',390]]){
   await page.setViewportSize({width,height:900});
   await page.goto(BASE,{waitUntil:'domcontentloaded'});
+  await expect(page).toHaveScreenshot('dashboard-'+label+'-approved.png',{fullPage:true,animations:'disabled',maxDiffPixelRatio:0.02});
   await testInfo.attach('dashboard-'+label,{body:await page.screenshot({fullPage:true}),contentType:'image/png'});
   const cards=page.locator('.cards > .card');
   await expect(cards).toHaveCount(5);
