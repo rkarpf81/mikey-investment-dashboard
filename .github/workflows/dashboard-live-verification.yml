@@ -3,15 +3,15 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "15 15 * * 1-5"
-  push:
+  workflow_run:
+    workflows: [Publish dashboard version]
+    types: [completed]
     branches: [main]
-    paths-ignore:
-      - quotes.json
-      - version.json
 permissions:
   contents: read
 jobs:
   published-site:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
