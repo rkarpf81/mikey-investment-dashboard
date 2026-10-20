@@ -1,0 +1,44 @@
+name: Publish dashboard version
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - scripts/update_quotes.py
+      - .github/workflows/dashboard-version.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stamp matching build into HTML and version manifest
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,re
+          path=pathlib.Path("index.html")
+          html=path.read_text()
+          build=os.environ["GITHUB_SHA"]
+          assert re.search(r'<meta name="dashboard-build" content="[^"]+">',html)
+          html=re.sub(r'<meta name="dashboard-build" content="[^"]+">',f'<meta name="dashboard-build" content="{build}">',html,count=1)
+          path.write_text(html)
+          pathlib.Path("version.json").write_text(json.dumps({"build":build})+"\n")
+          PY
+      - name: Install market data reader
+        run: pip install yfinance
+      - name: Produce initial market snapshot if available
+        continue-on-error: true
+        run: python scripts/update_quotes.py
+      - name: Commit matched dashboard build
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html version.json quotes.json
+          git diff --cached --quiet || (git commit -m "Publish matched dashboard build manifest" && git push)
