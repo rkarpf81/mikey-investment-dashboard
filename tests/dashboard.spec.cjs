@@ -153,7 +153,9 @@ test('holdings headings stay below the fixed title during page scroll and show f
  await page.evaluate(y=>window.scrollTo(0,y+300),start);
  await expect.poll(()=>firstHeader.evaluate(el=>Math.round(el.getBoundingClientRect().top))).toBe(100);
  const headers=await page.locator('#holdingsTable thead th').allTextContents();
- expect(headers).toEqual(['Ticker','Current value $','Today P/L $','Unrealized P/L $','Total return %','Cost basis $','Shares','Avg cost $','Last Price $','Portfolio weight %','Buy plan']);
+ expect(headers).toEqual(['Ticker','Current value $','Today P/L $','Unrealized P/L $','Total return %','Cost basis $','Shares','Avg cost $','Last Price $','Portfolio weight %','']);
+ const buyPlanHeader=page.locator('#holdingsTable thead th').last();
+ expect(await buyPlanHeader.getAttribute('aria-label')).toBe('Buy plan');
  const ellipsized=await page.locator('#holdingsTable thead th').evaluateAll(nodes=>nodes.some(el=>getComputedStyle(el).textOverflow==='ellipsis'));
  expect(ellipsized).toBe(false);
 });
