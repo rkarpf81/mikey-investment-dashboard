@@ -1,8 +1,11 @@
 name: Generate visual baseline candidates
 on:
   workflow_dispatch:
+  push:
+    branches: [staging/visual-release-gates-20261020]
+    paths: ['.github/workflows/dashboard-baseline-candidates.yml']
 permissions:
-  contents: read
+  contents: write
 jobs:
   candidate-screenshots:
     runs-on: ubuntu-latest
@@ -16,6 +19,12 @@ jobs:
       - run: python3 -m http.server 8765 --bind 127.0.0.1 &
       - name: Generate unapproved screenshot candidates
         run: npx playwright test tests/release-visual.spec.cjs --update-snapshots --reporter=line
+      - name: Commit candidate snapshots to staging for review
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/*-snapshots/*.png
+          git diff --cached --quiet || (git commit -m "Add UNREVIEWED visual baseline candidates" && git push)
       - name: Upload candidates for explicit visual approval
         if: always()
         uses: actions/upload-artifact@v4
