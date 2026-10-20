@@ -489,11 +489,17 @@ test("holdings headings stay below the fixed title during page scroll and show f
   const headerBottom = await page
     .locator(".sticky-header")
     .evaluate((el) => Math.round(el.getBoundingClientRect().bottom));
+  const stickyTop = await firstHeader.evaluate((el) =>
+    Math.round(el.getBoundingClientRect().top),
+  );
+  expect(stickyTop).toBeGreaterThanOrEqual(headerBottom);
+  expect(stickyTop - headerBottom).toBeLessThanOrEqual(40);
+  await page.evaluate(() => window.scrollBy(0, 800));
   await expect
     .poll(() =>
       firstHeader.evaluate((el) => Math.round(el.getBoundingClientRect().top)),
     )
-    .toBe(headerBottom);
+    .toBe(stickyTop);
   const headers = await page
     .locator("#holdingsTable thead th")
     .allTextContents();

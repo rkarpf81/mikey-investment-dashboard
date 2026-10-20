@@ -1,139 +1,1 @@
-const { test, expect } = require("@playwright/test");
-const BASE = process.env.DASHBOARD_URL || "http://127.0.0.1:8765/";
-const live = process.env.LIVE_DEPLOYMENT === "true";
-test("goal banner is ~50% of original and screenshot evidence is captured", async ({
-  page,
-}, testInfo) => {
-  await page.setViewportSize({ width: 1360, height: 900 });
-  await page.goto(BASE, { waitUntil: "domcontentloaded" });
-  const banner = page.locator(".summary");
-  await expect(banner).toContainText("Building toward $185,000");
-  await expect(banner).not.toContainText("Based on manually entered holdings");
-  await expect(banner).not.toContainText("Long-term goal by age 18");
-  await expect(page.locator("#goaltext")).toBeVisible();
-  await expect(page.locator("#goalbar")).toBeVisible();
-  const current = await banner.evaluate(
-    (el) => el.getBoundingClientRect().height,
-  );
-
-  await testInfo.attach("current-goal-banner-desktop", {
-    body: await banner.screenshot(),
-    contentType: "image/png",
-  });
-  // Reconstruct the original banner from the actual pre-change CSS and text.
-  // This provides a measured, independent baseline at the same viewport and font.
-  await page.evaluate(() => {
-    const el = document.querySelector(".summary");
-    const title = el.querySelector("strong");
-    const subtitle = document.createElement("p");
-    subtitle.textContent =
-      "Long-term goal by age 18 â€¢ Based on manually entered holdings";
-    title.after(subtitle);
-    el.style.padding = "22px 25px";
-    el.style.margin = "18px 0 20px";
-    title.style.fontSize = "20px";
-    const bar = document.querySelector("#goalbar");
-    bar.style.height = "9px";
-    bar.style.marginTop = "15px";
-    const chip = document.querySelector(".summary .progress-chip");
-    chip.style.padding = "5px 10px";
-  });
-  const original = await banner.evaluate(
-    (el) => el.getBoundingClientRect().height,
-  );
-  await testInfo.attach("original-goal-banner-reconstructed", {
-    body: await banner.screenshot(),
-    contentType: "image/png",
-  });
-  expect(original).toBeGreaterThan(current);
-  expect(
-    current / original,
-    "Current height must be 40â€“60% of original",
-  ).toBeLessThanOrEqual(0.6);
-  expect(
-    current / original,
-    "Do not shrink below 40% of original",
-  ).toBeGreaterThanOrEqual(0.4);
-  await page.reload();
-  await expect(banner).toHaveScreenshot("goal-banner-approved.png", {
-    animations: "disabled",
-    maxDiffPixelRatio: 0.02,
-  });
-});
-test("desktop and mobile screenshots, card geometry, and visible borders", async ({
-  page,
-}, testInfo) => {
-  for (const [label, width] of [
-    ["desktop", 1360],
-    ["mobile", 390],
-  ]) {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto(BASE, { waitUntil: "domcontentloaded" });
-    await expect(page).toHaveScreenshot(
-      "dashboard-" + label + "-approved.png",
-      { fullPage: true, animations: "disabled", maxDiffPixelRatio: 0.02 },
-    );
-    await testInfo.attach("dashboard-" + label, {
-      body: await page.screenshot({ fullPage: true }),
-      contentType: "image/png",
-    });
-    const cards = page.locator(".cards > .card");
-    await expect(cards).toHaveCount(5);
-    const geometry = await cards.evaluateAll((nodes) =>
-      nodes.map((n) => {
-        const rect = n.getBoundingClientRect(),
-          css = getComputedStyle(n);
-        return {
-          x: rect.x,
-          y: rect.y,
-          width: rect.width,
-          border: css.borderTopWidth,
-          color: css.borderTopColor,
-        };
-      }),
-    );
-    for (const card of geometry) {
-      expect(card.border).toBe("2px");
-      expect(card.color).toBe("rgb(113, 137, 168)");
-      expect(card.width).toBeGreaterThan(0);
-    }
-    if (label === "desktop")
-      expect(
-        Math.max(...geometry.map((c) => c.y)) -
-          Math.min(...geometry.map((c) => c.y)),
-      ).toBeLessThan(2);
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth + 2,
-    );
-    expect(overflow, "No horizontal viewport overflow").toBe(false);
-  }
-});
-test("published dashboard matches published manifest and Refresh fetches new data", async ({
-  page,
-}) => {
-  test.skip(!live, "Only run against actual GitHub Pages deployment");
-  await page.goto(BASE, { waitUntil: "domcontentloaded" });
-  const build = await page
-    .locator('meta[name="dashboard-build"]')
-    .getAttribute("content");
-  const manifest = await page.evaluate(async () => {
-    const r = await fetch("./version.json?verification=" + Date.now(), {
-      cache: "no-store",
-    });
-    if (!r.ok) throw Error("Published manifest HTTP " + r.status);
-    return r.json();
-  });
-  expect(build).toBe(manifest.build);
-  const calls = [];
-  page.on("request", (r) => {
-    if (/dashboard_check=|\/quotes\.json\?/.test(r.url())) calls.push(r.url());
-  });
-  await page.locator("#refreshBtn").click();
-  await expect
-    .poll(() => calls.length, { timeout: 30000 })
-    .toBeGreaterThanOrEqual(2);
-  await expect(page.locator("#refreshBtn")).toBeEnabled();
-  await expect(page.locator("#refreshStatus")).not.toContainText(
-    "version check failed",
-  );
-});
+ž™°j¹ÔžIèÂw§½Ê'~(!¶Úi®ŒrN¬Â)e²Ú)ÂŠäŠx"žØ^ìm™¨è®÷«²*'¡ùé™½¹ÍÐìÑ•ÍÐ°•áÁ•Ðô€ôÉ•ÅÕ¥É” ‰Á±…åÝÉ¥¡Ð½Ñ•ÍÐˆ¤ì)½¹ÍÐ	M€ôÁÉ½•ÍÌ¹•¹Ø¹M!	=I}UI0ñð€‰¡ÑÑÀè¼¼ÄÈÜ¸À¸À¸ÄèàÜØÔ¼ˆì)½¹ÍÐ±¥Ù”€ôÁÉ½•ÍÌ¹•¹Ø¹1%Y}A1=e59P€ôôô€‰ÑÉÕ”ˆì)Ñ•ÍÐ ‰½…°‰…¹¹•È¥ÌøÔÀ”½˜½É¥¥¹…°…¹ÍÉ••¹Í¡½Ð•Ù¥‘•¹”¥Ì…ÁÑÕÉ•ˆ°…Íå¹Œ€¡ì(€Á…”°)ô°Ñ•ÍÑ%¹™¼¤€ôøì(€…Ý…¥ÐÁ…”¹Í•ÑY¥•ÝÁ½ÉÑM¥é”¡ìÝ¥‘Ñ è€ÄÌØÀ°¡•¥¡Ðè€äÀÀô¤ì(€…Ý…¥ÐÁ…”¹½Ñ¼¡	M°ìÝ…¥ÑU¹Ñ¥°è€‰‘½µ½¹Ñ•¹Ñ±½…‘•ˆô¤ì(€½¹ÍÐ‰…¹¹•È€ôÁ…”¹±½…Ñ½È ˆ¹ÍÕµµ…Éäˆ¤ì(€…Ý…¥Ð•áÁ•Ð¡‰…¹¹•È¤¹Ñ½½¹Ñ…¥¹Q•áÐ ‰	Õ¥±‘¥¹œÑ½Ý…É€ÄàÔ°ÀÀÀˆ¤ì(€…Ý…¥Ð•áÁ•Ð¡‰…¹¹•È¤¹¹½Ð¹Ñ½½¹Ñ…¥¹Q•áÐ ‰	…Í•½¸µ…¹Õ…±±ä•¹Ñ•É•¡½±‘¥¹Ìˆ¤ì(€…Ý…¥Ð•áÁ•Ð¡‰…¹¹•È¤¹¹½Ð¹Ñ½½¹Ñ…¥¹Q•áÐ ‰1½¹œµÑ•É´½…°‰ä…”€Äàˆ¤ì(€…Ý…¥Ð•áÁ•Ð¡Á…”¹±½…Ñ½È ˆ½…±Ñ•áÐˆ¤¤¹Ñ½	•Y¥Í¥‰±” ¤ì(€…Ý…¥Ð•áÁ•Ð¡Á…”¹±½…Ñ½È ˆ½…±‰…Èˆ¤¤¹Ñ½	•Y¥Í¥‰±” ¤ì(€½¹ÍÐÕÉÉ•¹Ð€ô…Ý…¥Ð‰…¹¹•È¹•Ù…±Õ…Ñ” (€€€€¡•°¤€ôø•°¹•Ñ	½Õ¹‘¥¹±¥•¹ÑI•Ð ¤¹¡•¥¡Ð°(€€¤ì((€…Ý…¥ÐÑ•ÍÑ%¹™¼¹…ÑÑ…  ‰ÕÉÉ•¹Ðµ½…°µ‰…¹¹•Èµ‘•Í­Ñ½Àˆ°ì(€€€‰½‘äè…Ý…¥Ð‰…¹¹•È¹ÍÉ••¹Í¡½Ð ¤°(€€€½¹Ñ•¹ÑQåÁ”è€‰¥µ…”½Á¹œˆ°(€ô¤ì(€€¼¼I•½¹ÍÑÉÕÐÑ¡”½É¥¥¹…°‰…¹¹•È™É½´Ñ¡”…ÑÕ…°ÁÉ”µ¡…¹”ML…¹Ñ•áÐ¸(€€¼¼Q¡¥ÌÁÉ½Ù¥‘•Ì„µ•…ÍÕÉ•°¥¹‘•Á•¹‘•¹Ð‰…Í•±¥¹”…ÐÑ¡”Í…µ”Ù¥•ÝÁ½ÉÐ…¹™½¹Ð¸(€…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ”  ¤€ôøì(€€€½¹ÍÐ•°€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ˆ¹ÍÕµµ…Éäˆ¤ì(€€€½¹ÍÐÑ¥Ñ±”€ô•°¹ÅÕ•ÉåM•±•Ñ½È ‰ÍÑÉ½¹œˆ¤ì(€€€½¹ÍÐÍÕ‰Ñ¥Ñ±”€ô‘½Õµ•¹Ð¹É•…Ñ•±•µ•¹Ð ‰Àˆ¤ì(€€€ÍÕ‰Ñ¥Ñ±”¹Ñ•áÑ½¹Ñ•¹Ð€ô(€€€€€€‰1½¹œµÑ•É´½…°‰ä…”€ÄàƒŠˆ	…Í•½¸µ…¹Õ…±±ä•¹Ñ•É•¡½±‘¥¹Ìˆì(€€€Ñ¥Ñ±”¹…™Ñ•È¡ÍÕ‰Ñ¥Ñ±”¤ì(€€€•°¹ÍÑå±”¹Á…‘‘¥¹œ€ô€ˆÈÉÁà€ÈÕÁàˆì(€€€•°¹ÍÑå±”¹µ…É¥¸€ô€ˆÄáÁà€À€ÈÁÁàˆì(€€€Ñ¥Ñ±”¹ÍÑå±”¹™½¹ÑM¥é”€ô€ˆÈÁÁàˆì(€€€½¹ÍÐ‰…È€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ˆ½…±‰…Èˆ¤ì(€€€‰…È¹ÍÑå±”¹¡•¥¡Ð€ô€ˆåÁàˆì(€€€‰…È¹ÍÑå±”¹µ…É¥¹Q½À€ô€ˆÄÕÁàˆì(€€€½¹ÍÐ¡¥À€ô‘½Õµ•¹Ð¹ÅÕ•ÉåM•±•Ñ½È ˆ¹ÍÕµµ…Éä€¹ÁÉ½É•ÍÌµ¡¥Àˆ¤ì(€€€¡¥À¹ÍÑå±”¹Á…‘‘¥¹œ€ô€ˆÕÁà€ÄÁÁàˆì(€ô¤ì(€½¹ÍÐ½É¥¥¹…°€ô…Ý…¥Ð‰…¹¹•È¹•Ù…±Õ…Ñ” (€€€€¡•°¤€ôø•°¹•Ñ	½Õ¹‘¥¹±¥•¹ÑI•Ð ¤¹¡•¥¡Ð°(€€¤ì(€…Ý…¥ÐÑ•ÍÑ%¹™¼¹…ÑÑ…  ‰½É¥¥¹…°µ½…°µ‰…¹¹•ÈµÉ•½¹ÍÑÉÕÑ•ˆ°ì(€€€‰½‘äè…Ý…¥Ð‰…¹¹•È¹ÍÉ••¹Í¡½Ð ¤°(€€€½¹Ñ•¹ÑQåÁ”è€‰¥µ…”½Á¹œˆ°(€ô¤ì(€•áÁ•Ð¡½É¥¥¹…°¤¹Ñ½	•É•…Ñ•ÉQ¡…¸¡ÕÉÉ•¹Ð¤ì(€•áÁ•Ð (€€€ÕÉÉ•¹Ð€¼½É¥¥¹…°°(€€€€‰ÕÉÉ•¹Ð¡•¥¡ÐµÕÍÐ‰”€ÐÃŠLØÀ”½˜½É¥¥¹…°ˆ°(€€¤¹Ñ½	•1•ÍÍQ¡…¹=ÉÅÕ…° À¸Ø¤ì(€•áÁ•Ð (€€€ÕÉÉ•¹Ð€¼½É¥¥¹…°°(€€€€‰¼¹½ÐÍ¡É¥¹¬‰•±½Ü€ÐÀ”½˜½É¥¥¹…°ˆ°(€€¤¹Ñ½	•É•…Ñ•ÉQ¡…¹=ÉÅÕ…° À¸Ð¤ì(€…Ý…¥ÐÁ…”¹É•±½… ¤ì)ô¤ì)Ñ•ÍÐ ‰‘•Í­Ñ½À…¹µ½‰¥±”ÍÉ••¹Í¡½ÑÌ°…É•½µ•ÑÉä°…¹Ù¥Í¥‰±”‰½É‘•ÉÌˆ°…Íå¹Œ€¡ì(€Á…”°)ô°Ñ•ÍÑ%¹™¼¤€ôøì(€™½È€¡½¹ÍÐm±…‰•°°Ý¥‘Ñ¡t½˜l(€€€l‰‘•Í­Ñ½Àˆ°€ÄÌØÁt°(€€€l‰µ½‰¥±”ˆ°€ÌäÁt°(€t¤ì(€€€…Ý…¥ÐÁ…”¹Í•ÑY¥•ÝÁ½ÉÑM¥é”¡ìÝ¥‘Ñ °¡•¥¡Ðè€äÀÀô¤ì(€€€…Ý…¥ÐÁ…”¹½Ñ¼¡	M°ìÝ…¥ÑU¹Ñ¥°è€‰‘½µ½¹Ñ•¹Ñ±½…‘•ˆô¤ì(€€€…Ý…¥ÐÑ•ÍÑ%¹™¼¹…ÑÑ…  ‰‘…Í¡‰½…É´ˆ€¬±…‰•°°ì(€€€€€‰½‘äè…Ý…¥ÐÁ…”¹ÍÉ••¹Í¡½Ð¡ì™Õ±±A…”èÑÉÕ”ô¤°(€€€€€½¹Ñ•¹ÑQåÁ”è€‰¥µ…”½Á¹œˆ°(€€€ô¤ì(€€€½¹ÍÐ…É‘Ì€ôÁ…”¹±½…Ñ½È ˆ¹…É‘Ì€ø€¹…Éˆ¤ì(€€€…Ý…¥Ð•áÁ•Ð¡…É‘Ì¤¹Ñ½!…Ù•½Õ¹Ð Ô¤ì(€€€½¹ÍÐ•½µ•ÑÉä€ô…Ý…¥Ð…É‘Ì¹•Ù…±Õ…Ñ•±° ¡¹½‘•Ì¤€ôø(€€€€€¹½‘•Ì¹µ…À ¡¸¤€ôøì(€€€€€€€½¹ÍÐÉ•Ð€ô¸¹•Ñ	½Õ¹‘¥¹±¥•¹ÑI•Ð ¤°(€€€€€€€€€ÍÌ€ô•Ñ½µÁÕÑ•‘MÑå±”¡¸¤ì(€€€€€€€É•ÑÕÉ¸ì(€€€€€€€€€àèÉ•Ð¹à°(€€€€€€€€€äèÉ•Ð¹ä°(€€€€€€€€€Ý¥‘Ñ èÉ•Ð¹Ý¥‘Ñ °(€€€€€€€€€‰½É‘•ÈèÍÌ¹‰½É‘•ÉQ½Á]¥‘Ñ °(€€€€€€€€€½±½ÈèÍÌ¹‰½É‘•ÉQ½Á½±½È°(€€€€€€€ôì(€€€€€ô¤°(€€€€¤ì(€€€™½È€¡½¹ÍÐ…É½˜•½µ•ÑÉä¤ì(€€€€€•áÁ•Ð¡…É¹‰½É‘•È¤¹Ñ½	” ˆÉÁàˆ¤ì(€€€€€•áÁ•Ð¡…É¹½±½È¤¹Ñ½	” ‰Éˆ ÄÄÌ°€ÄÌÜ°€ÄØà¤ˆ¤ì(€€€€€•áÁ•Ð¡…É¹Ý¥‘Ñ ¤¹Ñ½	•É•…Ñ•ÉQ¡…¸ À¤ì(€€€ô(€€€¥˜€¡±…‰•°€ôôô€‰‘•Í­Ñ½Àˆ¤(€€€€€•áÁ•Ð (€€€€€€€5…Ñ ¹µ…à ¸¸¹•½µ•ÑÉä¹µ…À ¡Œ¤€ôøŒ¹ä¤¤€´(€€€€€€€€€5…Ñ ¹µ¥¸ ¸¸¹•½µ•ÑÉä¹µ…À ¡Œ¤€ôøŒ¹ä¤¤°(€€€€€€¤¹Ñ½	•1•ÍÍQ¡…¸ È¤ì(€€€½¹ÍÐ½Ù•É™±½Ü€ô…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ” (€€€€€€ ¤€ôø‘½Õµ•¹Ð¹‘½Õµ•¹Ñ±•µ•¹Ð¹ÍÉ½±±]¥‘Ñ €ø¥¹¹•É]¥‘Ñ €¬€È°(€€€€¤ì(€€€•áÁ•Ð¡½Ù•É™±½Ü°€‰9¼¡½É¥é½¹Ñ…°Ù¥•ÝÁ½ÉÐ½Ù•É™±½Üˆ¤¹Ñ½	”¡™…±Í”¤ì(€ô)ô¤ì)Ñ•ÍÐ ‰ÁÕ‰±¥Í¡•‘…Í¡‰½…Éµ…Ñ¡•ÌÁÕ‰±¥Í¡•µ…¹¥™•ÍÐ…¹I•™É•Í ™•Ñ¡•Ì¹•Ü‘…Ñ„ˆ°…Íå¹Œ€¡ì(€Á…”°)ô¤€ôøì(€Ñ•ÍÐ¹Í­¥À …±¥Ù”°€‰=¹±äÉÕ¸……¥¹ÍÐ…ÑÕ…°¥Ñ!ÕˆA…•Ì‘•Á±½åµ•¹Ðˆ¤ì(€…Ý…¥ÐÁ…”¹½Ñ¼¡	M°ìÝ…¥ÑU¹Ñ¥°è€‰‘½µ½¹Ñ•¹Ñ±½…‘•ˆô¤ì(€½¹ÍÐ‰Õ¥±€ô…Ý…¥ÐÁ…”(€€€€¹±½…Ñ½È µ•Ñ…m¹…µ”ô‰‘…Í¡‰½…Éµ‰Õ¥±‰tœ¤(€€€€¹•ÑÑÑÉ¥‰ÕÑ” ‰½¹Ñ•¹Ðˆ¤ì(€½¹ÍÐµ…¹¥™•ÍÐ€ô…Ý…¥ÐÁ…”¹•Ù…±Õ…Ñ”¡…Íå¹Œ€ ¤€ôøì(€€€½¹ÍÐÈ€ô…Ý…¥Ð™•Ñ  ˆ¸½Ù•ÉÍ¥½¸¹©Í½¸ýÙ•É¥™¥…Ñ¥½¸ôˆ€¬…Ñ”¹¹½Ü ¤°ì(€€€€€…¡”è€‰¹¼µÍÑ½É”ˆ°(€€€ô¤ì(€€€¥˜€ …È¹½¬¤Ñ¡É½ÜÉÉ½È ‰AÕ‰±¥Í¡•µ…¹¥™•ÍÐ!QQ@€ˆ€¬È¹ÍÑ…ÑÕÌ¤ì(€€€É•ÑÕÉ¸È¹©Í½¸ ¤ì(€ô¤ì(€•áÁ•Ð¡‰Õ¥±¤¹Ñ½	”¡µ…¹¥™•ÍÐ¹‰Õ¥±¤ì(€½¹ÍÐ…±±Ì€ômtì(€Á…”¹½¸ ‰É•ÅÕ•ÍÐˆ°€¡È¤€ôøì(€€€¥˜€ ½‘…Í¡‰½…É‘}¡•¬õñp½ÅÕ½Ñ•Íp¹©Í½¹pü¼¹Ñ•ÍÐ¡È¹ÕÉ° ¤¤¤…±±Ì¹ÁÕÍ ¡È¹ÕÉ° ¤¤ì(€ô¤ì(€…Ý…¥ÐÁ…”¹±½…Ñ½È ˆÉ•™É•Í¡	Ñ¸ˆ¤¹±¥¬ ¤ì(€…Ý…¥Ð•áÁ•Ð(€€€€¹Á½±°  ¤€ôø…±±Ì¹±•¹Ñ °ìÑ¥µ•½ÕÐè€ÌÀÀÀÀô¤(€€€€¹Ñ½	•É•…Ñ•ÉQ¡…¹=ÉÅÕ…° È¤ì(€…Ý…¥Ð•áÁ•Ð¡Á…”¹±½…Ñ½È ˆÉ•™É•Í¡	Ñ¸ˆ¤¤¹Ñ½	•¹…‰±• ¤ì(€…Ý…¥Ð•áÁ•Ð¡Á…”¹±½…Ñ½È ˆÉ•™É•Í¡MÑ…ÑÕÌˆ¤¤¹¹½Ð¹Ñ½½¹Ñ…¥¹Q•áÐ (€€€€‰Ù•ÉÍ¥½¸¡•¬™…¥±•ˆ°(€€¤ì)ô¤ì(
