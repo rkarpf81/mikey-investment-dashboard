@@ -135,7 +135,7 @@ async function refreshDashboardAndSite(){
    const response=await fetch("./?dashboard_check="+Date.now(),{cache:"no-store"});
    if(!response.ok)throw Error("HTML HTTP "+response.status);
    const html=await response.text();
-   const publishedBuild=html.match(/<meta\\s+name=["']dashboard-build["']\\s+content=["']([^"']+)["']/i)?.[1];
+   const publishedBuild=html.match(/<meta\s+name=["']dashboard-build["']\s+content=["']([^"']+)["']/i)?.[1];
    if(!publishedBuild)throw Error("Published HTML has no build marker");
    const current=document.querySelector('meta[name="dashboard-build"]')?.content;
    if(current!==publishedBuild){
