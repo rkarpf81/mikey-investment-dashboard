@@ -116,3 +116,29 @@ test('holdings columns never overlap and shares/cost are plain text',async({page
  expect(first.below).toBe(true);
  expect(first.right).toBe(true);
 });
+
+test('goal tracker assumptions, checkpoints, and stock targets persist without replacing holdings',async({page})=>{
+ await page.goto(url);
+ const before=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
+ await page.locator('#goaltext').click();
+ await expect(page.locator('#goalDialog')).toBeVisible();
+ await expect(page.locator('#monthlyGoals tr').last()).toContainText('2034');
+ await page.locator('#goalWeekly').fill('125');
+ await page.locator('#goalReturn').fill('6.5');
+ await page.locator('#goalAmount').fill('190000');
+ await page.getByRole('button',{name:'Save assumptions'}).click();
+ const nvdaTarget=page.getByLabel('Target value NVDA');
+ await nvdaTarget.fill('2500');
+ await nvdaTarget.dispatchEvent('change');
+ const actual=page.getByLabel(/Actual /).first();
+ await actual.fill('12000');
+ await actual.dispatchEvent('change');
+ const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
+ expect(saved.goal.weeklyContribution).toBe(125);
+ expect(saved.goal.annualReturn).toBe(6.5);
+ expect(saved.goal.goalAmount).toBe(190000);
+ expect(saved.goal.actuals).toHaveProperty(await actual.getAttribute('aria-label').then(x=>x.replace('Actual ','')),'12000');
+ expect(saved.holdings.find(h=>h.ticker==='NVDA').target).toBe(2500);
+ expect(saved.holdings.length).toBe(before.holdings.length);
+ expect(saved.watch).toEqual(before.watch);
+});
