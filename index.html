@@ -143,12 +143,12 @@ function restore(e){let f=e.target.files[0];if(!f)return;f.text().then(t=>{try{l
 function renderPerformance(){
  const total=data.holdings.reduce((s,h)=>s+(Number(h.value)||0),0);
  const basis=data.holdings.reduce((s,h)=>s+(Number(h.shares)||0)*(Number(h.cost)||0),0);
- const gain=total-basis, pct=basis?100*gain/basis:0;
+ const gain=total-basis, pct=basis?100*gain/basis:0, todayAvailable=data.holdings.some(h=>Number(h.previousClose)>0), today=data.holdings.reduce((sum,h)=>sum+(Number(h.previousClose)>0?(Number(h.shares)||0)*((Number(h.price)||0)-Number(h.previousClose)):0),0);
  const cards=document.querySelector(".cards");
  if(!document.getElementById("basisCard")){
-  cards.insertAdjacentHTML("beforeend",'<section class="card" id="basisCard"><div>Total cost basis</div><div class="number" id="basisTotal"></div><div class="metric-note">Shares × average cost</div></section><section class="card"><div>Total unrealized gain / loss</div><div class="number" id="gainTotal"></div><div class="metric-note" id="gainPct"></div></section><section class="card"><div>Today\'s gain / loss</div><div class="number muted">—</div><div class="metric-note">Previous close data not connected</div></section>');
+  cards.insertAdjacentHTML("beforeend",'<section class="card" id="basisCard"><div>Total cost basis</div><div class="number" id="basisTotal"></div><div class="metric-note">Shares × average cost</div></section><section class="card"><div>Total unrealized gain / loss</div><div class="number" id="gainTotal"></div><div class="metric-note" id="gainPct"></div></section><section class="card"><div>Today\'s gain / loss</div><div class="number muted" id="todayTotal">—</div><div class="metric-note" id="todayNote">Previous close data not connected</div></section>);
  }
- document.getElementById("basisTotal").textContent=money(basis);
+ document.getElementById("basisTotal").textContent=money(basis);const todayEl=document.getElementById("todayTotal"),todayNote=document.getElementById("todayNote");todayEl.textContent=todayAvailable?(today>=0?"+":"")+money(today):"—";todayEl.className="number "+(todayAvailable?(today>=0?"positive":"negative"):"muted");todayNote.textContent=todayAvailable?"Based on available previous-close quotes":"Previous close data not connected";
  const g=document.getElementById("gainTotal");g.textContent=(gain>=0?"+":"")+money(gain);g.className="number "+(gain>=0?"positive":"negative");
  document.getElementById("gainPct").textContent=(pct>=0?"+":"")+pct.toFixed(2)+"% total unrealized return";
  document.getElementById("goaltext").textContent=(100*total/(Number(data.goal.goalAmount)||185000)).toFixed(1)+"% complete";
