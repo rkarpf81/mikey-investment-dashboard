@@ -1,6 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const path=require('path');
-const url='file://'+path.resolve(__dirname,'../index.html');
+const url='http://127.0.0.1:8765/';
 test('desktop cards, holdings, and saved user data survive reload',async({page})=>{
  await page.addInitScript(()=>{
   localStorage.setItem('mikey-dashboard-v1',JSON.stringify({
