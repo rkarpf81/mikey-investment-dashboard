@@ -17,10 +17,16 @@
 @media(max-width:650px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.cards .number{font-size:clamp(19px,5vw,27px)}}
 @media(max-width:390px){.cards{grid-template-columns:1fr}}
 
+/* Distinct, consistent borders for all five portfolio summary cards. */
+.cards>.card{
+ border:2px solid #7189a8!important;
+ border-radius:12px!important;
+ box-shadow:0 2px 7px rgba(32,56,86,.12)!important;
+}
 /* Five compact portfolio metric cards, one row at desktop widths. */
 @media(min-width:900px){
  .cards{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important}
- .cards>.card{min-width:0!important;min-height:116px!important;padding:13px 12px!important;margin:0!important;border:1px solid #dce4ed!important;border-radius:12px!important}
+ .cards>.card{min-width:0!important;min-height:116px!important;padding:13px 12px!important;margin:0!important;border:2px solid #7189a8!important;border-radius:12px!important}
  .cards>.card .number{font-size:clamp(17px,1.55vw,25px)!important;line-height:1.2!important;letter-spacing:-.5px!important;margin-top:10px!important;white-space:nowrap!important}
  .cards>.card>div:first-child{font-size:10px!important;line-height:1.25!important}
  .cards>.card .metric-note,.cards>.card #gap{font-size:9px!important;line-height:1.3!important;margin-top:7px!important}
