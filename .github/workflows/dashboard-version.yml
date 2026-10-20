@@ -28,8 +28,9 @@ jobs:
           path=pathlib.Path("index.html")
           html=path.read_text()
           build=os.environ["GITHUB_SHA"]
-          assert re.search(r'<meta name="dashboard-build" content="[^"]+">',html)
-          html=re.sub(r'<meta name="dashboard-build" content="[^"]+">',f'<meta name="dashboard-build" content="{build}">',html,count=1)
+          marker=r'<meta\s+name="dashboard-build"\s+content="[^"]+"\s*/?>'
+          assert re.search(marker,html), "Dashboard build marker missing"
+          html=re.sub(marker,f'<meta name="dashboard-build" content="{build}">',html,count=1)
           for asset in ("styles.css", "js/dashboard.js", "js/market-status.js"):
             pattern=rf'((?:href|src)="\./{re.escape(asset)})(?:\?v=[^"]*)?(")'
             html=re.sub(pattern,rf'\g<1>?v={build[:12]}\g<2>',html)
