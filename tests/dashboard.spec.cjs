@@ -285,6 +285,10 @@ test("fresh dashboard has no invented positions; holdings columns remain readabl
   await expect(page.locator("#holdingsTable tbody tr")).toHaveCount(0);
   await expect(page.locator("#holdingsEmpty")).toBeVisible();
   await expect(page.locator("#total")).toContainText("$0.00");
+  await expect(page.locator('button[onclick="record()"]')).toBeDisabled();
+  await expect(page.locator("#plan")).toContainText(
+    "Load holdings before creating a purchase plan.",
+  );
   await page.evaluate(() =>
     localStorage.setItem(
       "mikey-dashboard-v1",
@@ -482,11 +486,14 @@ test("holdings headings stay below the fixed title during page scroll and show f
     .locator("#holdingsTable")
     .evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
   await page.evaluate((y) => window.scrollTo(0, y + 300), start);
+  const headerBottom = await page
+    .locator(".sticky-header")
+    .evaluate((el) => Math.round(el.getBoundingClientRect().bottom));
   await expect
     .poll(() =>
       firstHeader.evaluate((el) => Math.round(el.getBoundingClientRect().top)),
     )
-    .toBe(130);
+    .toBe(headerBottom);
   const headers = await page
     .locator("#holdingsTable thead th")
     .allTextContents();

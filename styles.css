@@ -914,7 +914,7 @@ main {
 }
 #holdingsTable thead th {
   position: sticky !important;
-  top: 130px !important;
+  top: var(--dashboard-header-height, 130px) !important;
   z-index: 99990 !important;
   background: #dce7f2 !important;
   white-space: normal !important;
@@ -982,7 +982,7 @@ main {
 }
 @media (max-width: 760px) {
   #holdingsTable thead th {
-    top: 114px !important;
+    top: var(--dashboard-header-height, 114px) !important;
     font-size: 9px !important;
     padding: 7px 2px !important;
   }
@@ -1057,4 +1057,28 @@ main {
 #holdingsTable tbody td:nth-child(11) select {
   display: block;
   margin: auto;
+}
+
+/* Keep all holdings labels readable on phones with an in-table horizontal scroll. */
+@media (max-width: 760px) {
+  .holdings-scroll {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+  #holdingsTable {
+    width: 1190px !important;
+    min-width: 1190px !important;
+    table-layout: fixed !important;
+  }
+  #holdingsTable thead th {
+    font-size: 10px !important;
+    padding: 8px 5px !important;
+  }
+  #holdingsScroll::after {
+    content: "Swipe sideways to see all columns";
+    display: block;
+    padding: 7px 10px;
+    color: #718197;
+    font-size: 11px;
+  }
 }

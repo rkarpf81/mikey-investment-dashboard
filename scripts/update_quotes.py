@@ -55,9 +55,10 @@ def fetch(symbol: str):
 def main():
     try:
         old = json.loads(OUTPUT.read_text())
-        quotes = old.get("quotes", {})
+        quotes = dict(old.get("quotes", {}))
     except (OSError, json.JSONDecodeError):
         quotes = {}
+    previous_quotes = dict(quotes)
     errors = []
     successes = 0
     for symbol in SYMBOLS:
@@ -72,6 +73,9 @@ def main():
             errors.append(f"{symbol}: {str(exc)[:160]}")
     if not successes and not quotes:
         raise SystemExit("No quotes returned and no prior snapshot exists; refusing to publish an empty snapshot")
+    if successes and quotes == previous_quotes:
+        print("Quote values and timestamps are unchanged; skipping the snapshot commit")
+        return
     payload = {
         "updatedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
         "quotes": quotes,

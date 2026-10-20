@@ -133,6 +133,8 @@ function numbers() {
   return { total, fx, gap: Math.max(0, 9 * (total - fx) - fx) };
 }
 function proposed() {
+  if (!data.holdings.length)
+    return { fx: 0, stock: 0, budget: 0, ticker: "", items: [] };
   let n = numbers(),
     budget = Math.max(0, Number(document.getElementById("budget").value) || 0),
     mode = document.getElementById("strategy").value,
@@ -191,17 +193,25 @@ function render(full = true) {
     .join("");
   if (old && data.holdings.some((h) => h.ticker === old)) s.value = old;
   let p = proposed();
-  document.getElementById("plan").innerHTML =
-    "<p>" +
-    p.items
-      .map(([t, a]) => "Buy " + esc(t) + ": <b>" + money(a) + "</b>")
-      .join("<br>") +
-    "</p><p>After purchase FXAIX share: " +
-    (n.total + p.budget
-      ? (100 * (n.fx + p.fx)) / (n.total + p.budget)
-      : 0
-    ).toFixed(1) +
-    "%</p>";
+  const recordButton = document.querySelector('button[onclick="record()"]');
+  if (!data.holdings.length) {
+    document.getElementById("plan").textContent =
+      "Load holdings before creating a purchase plan.";
+    if (recordButton) recordButton.disabled = true;
+  } else {
+    document.getElementById("plan").innerHTML =
+      "<p>" +
+      p.items
+        .map(([t, a]) => "Buy " + esc(t) + ": <b>" + money(a) + "</b>")
+        .join("<br>") +
+      "</p><p>After purchase FXAIX share: " +
+      (n.total + p.budget
+        ? (100 * (n.fx + p.fx)) / (n.total + p.budget)
+        : 0
+      ).toFixed(1) +
+      "%</p>";
+    if (recordButton) recordButton.disabled = false;
+  }
   if (full) {
     document.getElementById("holdings").innerHTML = data.holdings
       .map(
@@ -302,14 +312,27 @@ function removeHolding(i) {
   save();
   render();
 }
-function add() {
+async function add() {
   let ticker = document.getElementById("newTicker").value.trim().toUpperCase();
   if (
     !/^[A-Z0-9.-]{1,12}$/.test(ticker) ||
     data.holdings.some((h) => h.ticker === ticker)
   )
     return alert("Enter a new valid ticker");
-  const price = Number(publishedQuotes[ticker]?.price) || 0;
+  if (!Object.keys(publishedQuotes).length) {
+    try {
+      const response = await fetch("./quotes.json?at=" + Date.now(), {
+        cache: "no-store",
+      });
+      if (response.ok) publishedQuotes = (await response.json()).quotes || {};
+    } catch {}
+  }
+  const quote = publishedQuotes[ticker];
+  const quoteTime = Date.parse(quote?.asOf || "");
+  const price =
+    Number.isFinite(quoteTime) && Date.now() - quoteTime <= 36 * 60 * 60 * 1000
+      ? Number(quote.price) || 0
+      : 0;
   data.holdings.push({
     ticker,
     value: 0,
@@ -738,10 +761,14 @@ async function loadPublishedQuotes() {
   if (!Number.isFinite(updated)) throw Error("Invalid quote timestamp");
   publishedQuotes = payload.quotes;
   let changed = 0,
-    stale = 0;
+    stale = 0,
+    missing = 0;
   for (const holding of data.holdings) {
     const quote = payload.quotes[holding.ticker];
-    if (!quote) continue;
+    if (!quote) {
+      missing++;
+      continue;
+    }
     const price = Number(quote.price),
       quoteTime = Date.parse(quote.asOf || payload.updatedAt);
     if (!Number.isFinite(price) || price <= 0) continue;
@@ -770,6 +797,7 @@ async function loadPublishedQuotes() {
     changed,
     total: data.holdings.length,
     stale,
+    missing,
     updatedAt: payload.updatedAt,
   };
 }
@@ -819,7 +847,8 @@ async function refreshDashboardAndSite() {
           "Yahoo Finance snapshot updated " +
           new Date(q.updatedAt).toLocaleString() +
           " · may be delayed" +
-          (stale || q.stale ? " · some quotes may be stale" : ""),
+          (stale || q.stale ? " · some quotes may be stale" : "") +
+          (q.missing ? " · no quote for " + q.missing + " holdings" : ""),
       );
     } catch (e) {
       show(
@@ -957,7 +986,7 @@ async function importFidelityCsv(event) {
       !confirm(
         "Replace this browser's holdings with " +
           grouped.size +
-          " positions from the Fidelity CSV? Goal settings, priorities, and research notes will be kept.",
+          " positions from the Fidelity CSV? Goal settings, priorities, and research notes will be kept. Export a JSON backup first if you want to keep the current holdings.",
       )
     )
       return;
@@ -966,13 +995,23 @@ async function importFidelityCsv(event) {
       const old = prior.get(h.ticker) || {};
       return {
         ...h,
-        cost: h.shares ? h.basis / h.shares : old.cost || 0,
+        cost: h.shares && h.basis ? h.basis / h.shares : old.cost || 0,
         target: old.target || 0,
         avgCostTarget: old.avgCostTarget || 0,
         priority: old.priority || "Later",
         previousClose: old.previousClose || null,
       };
     });
+    if (
+      !data.goal.startBalance &&
+      !Object.keys(data.goal.actuals || {}).length
+    ) {
+      data.goal.startBalance = data.holdings.reduce(
+        (sum, h) => sum + h.value,
+        0,
+      );
+      data.goal.startDate = new Date().toISOString().slice(0, 10);
+    }
     data.accountImportAt = new Date().toISOString();
     data.accountImportSource = "Fidelity CSV";
     save();

@@ -153,6 +153,20 @@ if (new URLSearchParams(location.search).has("dashboard_build")) {
     cleanUrl.pathname + cleanUrl.search + cleanUrl.hash,
   );
 }
+function syncStickyHeaderOffset() {
+  const header = document.querySelector(".sticky-header");
+  if (!header) return;
+  document.documentElement.style.setProperty(
+    "--dashboard-header-height",
+    Math.ceil(header.getBoundingClientRect().height) + "px",
+  );
+}
 window.renderMarketStatus = renderMarketStatus;
+syncStickyHeaderOffset();
+window.addEventListener("resize", syncStickyHeaderOffset);
+if ("ResizeObserver" in window)
+  new ResizeObserver(syncStickyHeaderOffset).observe(
+    document.querySelector(".sticky-header"),
+  );
 renderMarketStatus();
 setInterval(() => renderMarketStatus(), 60000);
