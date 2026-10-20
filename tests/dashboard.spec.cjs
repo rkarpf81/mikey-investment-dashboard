@@ -137,7 +137,7 @@ test('goal tracker assumptions, checkpoints, and stock targets persist without r
  expect(saved.goal.weeklyContribution).toBe(125);
  expect(saved.goal.annualReturn).toBe(6.5);
  expect(saved.goal.goalAmount).toBe(190000);
- expect(saved.goal.actuals).toHaveProperty(await actual.getAttribute('aria-label').then(x=>x.replace('Actual ','')),'12000');
+ expect(saved.goal.actuals).toHaveProperty(await actual.getAttribute('aria-label').then(x=>x.replace('Actual ','')),12000);
  expect(saved.holdings.find(h=>h.ticker==='NVDA').target).toBe(2500);
  expect(saved.holdings.length).toBe(before.holdings.length);
  expect(saved.watch).toEqual(before.watch);
