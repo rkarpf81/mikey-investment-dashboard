@@ -44,25 +44,15 @@ function renderPerformance(){
  row.insertAdjacentHTML("beforeend",'<td>'+money(b)+'</td><td class="'+(g>=0?"positive":"negative")+'">'+(g>=0?"+":"")+money(g)+'</td><td class="'+(p>=0?"positive":"negative")+'">'+(p>=0?"+":"")+p.toFixed(1)+'%</td><td class="muted">—</td><td>'+w.toFixed(1)+'%</td>');
  });
 }
-async function refreshDashboard(){
- const buttons=[document.getElementById("refreshBtn"),null].filter(Boolean);
+function refreshDashboard(){
+ const btn=document.getElementById("refreshBtn");
+ if(btn){btn.disabled=true;btn.textContent="↻ Loading latest dashboard…";}
+ const url=new URL(location.href);
+ url.searchParams.set("dashboard_refresh",String(Date.now()));
+ location.replace(url.toString());
+}
+async function refreshMarketQuotes(){
  const status=document.getElementById("marketRefreshStatus");
- buttons.forEach(b=>b.disabled=true);
- try {
-  const latest=await fetch("./index.html?versioncheck="+Date.now(),{cache:"no-store"});
-  if(latest.ok){
-   const html=await latest.text();
-   const found=html.match(/name="dashboard-version" content="([^"]+)"/);
-   const current=document.querySelector('meta[name="dashboard-version"]')?.content;
-   if(found && found[1]!==current){
-    const url=new URL(location.href);
-    url.searchParams.set("v",found[1]);
-    location.replace(url.toString());
-    return;
-   }
-  }
- }catch(e){console.warn("Version check failed",e)}
-
  if(status){status.hidden=false;status.textContent="Checking latest published Yahoo quote snapshot…";}
  try{
   const response=await fetch("./quotes.json?ts="+Date.now(),{cache:"no-store"});
@@ -85,7 +75,17 @@ async function refreshDashboard(){
   if(status)status.textContent="Yahoo snapshot "+asof+": "+updated+"/"+data.holdings.length+" prices loaded"+(missing.length?"; unavailable: "+missing.join(", "):"")+". Data may be delayed; Refresh cannot force a new market quote.";
  }catch(e){
   if(status)status.textContent="Price refresh unavailable: "+e.message+". Existing prices preserved; NOT verified live.";
- }finally{buttons.forEach(b=>b.disabled=false)}
+ }finally{const b=document.getElementById("refreshBtn");if(b)b.disabled=false;}
+}
+
+}
+if(new URL(location.href).searchParams.has("dashboard_refresh")){
+ window.addEventListener("load",()=>{
+  const clean=new URL(location.href);
+  clean.searchParams.delete("dashboard_refresh");
+  history.replaceState(null,"",clean.toString());
+  refreshMarketQuotes();
+ },{once:true});
 }
 const originalRender=render;
 render=function(full=true){originalRender(full);renderPerformance()};
