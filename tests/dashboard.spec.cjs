@@ -119,6 +119,8 @@ test('holdings columns never overlap and shares/cost are plain text',async({page
 
 test('goal tracker assumptions, checkpoints, and stock targets persist without replacing holdings',async({page})=>{
  await page.goto(url);
+ await page.evaluate(()=>localStorage.setItem('mikey-dashboard-v1',JSON.stringify({holdings:[{ticker:'FXAIX',shares:10,cost:200,price:250,value:2500,target:0,priority:'Now'},{ticker:'NVDA',shares:2,cost:100,price:150,value:300,target:0,priority:'Later'}],watch:[{name:'Example',note:'Keep',decision:'Research'}]})));
+ await page.reload();
  const before=await page.evaluate(()=>JSON.parse(localStorage.getItem('mikey-dashboard-v1')));
  await page.locator('#goaltext').click();
  await expect(page.locator('#goalDialog')).toBeVisible();
