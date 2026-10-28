@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-28T20:26:35.676495+00:00",
+  "updatedAt": "2026-10-28T21:25:42.217525+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -26,7 +26,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "CRWV": {
-      "price": 63.90999984741211,
+      "price": 63.91999816894531,
       "previousClose": 59.56999969482422,
       "asOf": "2026-10-28T15:45:00-04:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -80,7 +80,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MSFT": {
-      "price": 531.72998046875,
+      "price": 530.8300170898438,
       "previousClose": 531.3300170898438,
       "asOf": "2026-10-28T15:45:00-04:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -92,7 +92,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NBIS": {
-      "price": 182.5800018310547,
+      "price": 182.57000732421875,
       "previousClose": 170.47000122070312,
       "asOf": "2026-10-28T15:45:00-04:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
