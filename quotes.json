@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-30T20:24:39.589820+00:00",
+  "updatedAt": "2026-11-02T13:56:46.841884+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -20,7 +20,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "CLSK": {
-      "price": 7.659999847412109,
+      "price": 7.65500020980835,
       "previousClose": 8.199999809265137,
       "asOf": "2026-10-30T15:45:00-04:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
