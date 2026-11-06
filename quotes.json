@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T21:30:38.845086+00:00",
+  "updatedAt": "2026-11-06T13:58:17.181138+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -92,7 +92,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NBIS": {
-      "price": 120.04000091552734,
+      "price": 120.1449966430664,
       "previousClose": 141.52000427246094,
       "asOf": "2026-11-05T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -140,7 +140,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "SPIR": {
-      "price": 7.715000152587891,
+      "price": 7.71999979019165,
       "previousClose": 8.380000114440918,
       "asOf": "2026-11-05T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
