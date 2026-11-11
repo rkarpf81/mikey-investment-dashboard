@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-10T21:27:58.780033+00:00",
+  "updatedAt": "2026-11-11T14:00:33.466534+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -74,7 +74,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MRVL": {
-      "price": 154.30999755859375,
+      "price": 154.2899932861328,
       "previousClose": 154.60000610351562,
       "asOf": "2026-11-10T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -128,7 +128,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "RIOT": {
-      "price": 18.084999084472656,
+      "price": 18.09000015258789,
       "previousClose": 17.65999984741211,
       "asOf": "2026-11-10T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
