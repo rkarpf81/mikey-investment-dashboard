@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-12T21:33:29.536608+00:00",
+  "updatedAt": "2026-11-13T14:47:17.970093+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -8,33 +8,33 @@
       "source": "Yahoo Finance via yfinance"
     },
     "AVGO": {
-      "price": 364.3800048828125,
-      "previousClose": 345.2200012207031,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 348.7799987792969,
+      "previousClose": 364.3599853515625,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "BABA": {
-      "price": 94.3550033569336,
-      "previousClose": 101.5199966430664,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 94.7300033569336,
+      "previousClose": 94.36000061035156,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "CLSK": {
-      "price": 6.835000038146973,
-      "previousClose": 6.909999847412109,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 6.619999885559082,
+      "previousClose": 6.840000152587891,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "CRWV": {
-      "price": 56.584999084472656,
-      "previousClose": 60.77000045776367,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 53.61000061035156,
+      "previousClose": 56.599998474121094,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "EBAY": {
-      "price": 120.13999938964844,
-      "previousClose": 122.68000030517578,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 121.9749984741211,
+      "previousClose": 120.13999938964844,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "FSELX": {
@@ -50,129 +50,129 @@
       "source": "Yahoo Finance via yfinance"
     },
     "GCT": {
-      "price": 64.7300033569336,
-      "previousClose": 64.66999816894531,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 65.16799926757812,
+      "previousClose": 64.79000091552734,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "GME": {
-      "price": 25.645000457763672,
-      "previousClose": 25.549999237060547,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 26.30500030517578,
+      "previousClose": 25.6200008392334,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MARA": {
-      "price": 7.190000057220459,
-      "previousClose": 7.659999847412109,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 7.020199775695801,
+      "previousClose": 7.199999809265137,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "META": {
-      "price": 623.5900268554688,
-      "previousClose": 628.77001953125,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 635.6199951171875,
+      "previousClose": 623.6099853515625,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MRVL": {
-      "price": 164.47999572753906,
-      "previousClose": 168.8000030517578,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 159.52999877929688,
+      "previousClose": 164.4499969482422,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MSFT": {
-      "price": 523.1099853515625,
-      "previousClose": 521.1300048828125,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 522.2050170898438,
+      "previousClose": 523.0,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "MU": {
-      "price": 798.9000244140625,
-      "previousClose": 811.2999877929688,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 790.5394287109375,
+      "previousClose": 798.4400024414062,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NBIS": {
-      "price": 128.73159790039062,
-      "previousClose": 154.69000244140625,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 116.43499755859375,
+      "previousClose": 128.63999938964844,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NVDA": {
-      "price": 166.0399932861328,
-      "previousClose": 173.72999572753906,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 163.77499389648438,
+      "previousClose": 166.19000244140625,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "ONDS": {
-      "price": 5.320000171661377,
-      "previousClose": 5.730000019073486,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 5.130000114440918,
+      "previousClose": 5.320000171661377,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "PLNT": {
-      "price": 60.15999984741211,
-      "previousClose": 61.189998626708984,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 60.78499984741211,
+      "previousClose": 60.150001525878906,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "RBRK": {
-      "price": 110.41000366210938,
-      "previousClose": 109.26000213623047,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 110.44999694824219,
+      "previousClose": 110.37999725341797,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "RIG": {
-      "price": 5.320000171661377,
-      "previousClose": 5.309999942779541,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 5.364999771118164,
+      "previousClose": 5.320000171661377,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "RIOT": {
-      "price": 17.850000381469727,
-      "previousClose": 18.280000686645508,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 17.364999771118164,
+      "previousClose": 17.829999923706055,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "SOUN": {
-      "price": 3.6050000190734863,
-      "previousClose": 3.9100000858306885,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 3.5768001079559326,
+      "previousClose": 3.5999999046325684,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "SPIR": {
-      "price": 9.25,
-      "previousClose": 9.970000267028809,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 9.270000457763672,
+      "previousClose": 9.279999732971191,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "TTWO": {
-      "price": 226.92999267578125,
-      "previousClose": 231.30999755859375,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 232.96499633789062,
+      "previousClose": 226.9499969482422,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "VIST": {
-      "price": 55.47999954223633,
-      "previousClose": 55.970001220703125,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 55.654998779296875,
+      "previousClose": 55.4900016784668,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "VRT": {
-      "price": 209.65499877929688,
-      "previousClose": 206.50999450683594,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 206.64950561523438,
+      "previousClose": 209.63999938964844,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "WULF": {
-      "price": 13.03499984741211,
-      "previousClose": 13.359999656677246,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 12.420000076293945,
+      "previousClose": 13.039999961853027,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "YEXT": {
-      "price": 7.650000095367432,
-      "previousClose": 7.75,
-      "asOf": "2026-11-12T15:45:00-05:00",
+      "price": 7.619999885559082,
+      "previousClose": 7.650000095367432,
+      "asOf": "2026-11-13T09:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     }
   },
