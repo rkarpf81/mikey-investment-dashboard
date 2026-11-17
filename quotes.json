@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-16T21:37:47.501180+00:00",
+  "updatedAt": "2026-11-17T14:01:41.961761+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -8,13 +8,13 @@
       "source": "Yahoo Finance via yfinance"
     },
     "AVGO": {
-      "price": 333.7099914550781,
+      "price": 333.70001220703125,
       "previousClose": 347.010009765625,
       "asOf": "2026-11-16T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "BABA": {
-      "price": 90.625,
+      "price": 90.62999725341797,
       "previousClose": 94.37999725341797,
       "asOf": "2026-11-16T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
