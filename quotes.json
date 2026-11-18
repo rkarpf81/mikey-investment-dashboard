@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-17T21:39:12.857195+00:00",
+  "updatedAt": "2026-11-18T14:03:50.831181+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -98,7 +98,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NVDA": {
-      "price": 155.47000122070312,
+      "price": 155.4550018310547,
       "previousClose": 156.13999938964844,
       "asOf": "2026-11-17T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
