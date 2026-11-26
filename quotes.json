@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T22:02:00.064838+00:00",
+  "updatedAt": "2026-11-26T22:00:11.611585+00:00",
   "quotes": {
     "FXAIX": {
       "price": 267.29998779296875,
@@ -8,7 +8,7 @@
       "source": "Yahoo Finance via yfinance"
     },
     "AVGO": {
-      "price": 300.489990234375,
+      "price": 300.55499267578125,
       "previousClose": 301.0799865722656,
       "asOf": "2026-11-25T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -98,7 +98,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "NVDA": {
-      "price": 149.2899932861328,
+      "price": 149.27000427246094,
       "previousClose": 155.3800048828125,
       "asOf": "2026-11-25T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
@@ -122,7 +122,7 @@
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
     },
     "RIG": {
-      "price": 5.020699977874756,
+      "price": 5.020100116729736,
       "previousClose": 4.829999923706055,
       "asOf": "2026-11-25T15:45:00-05:00",
       "source": "Yahoo Finance via yfinance \u00b7 15-minute bars"
